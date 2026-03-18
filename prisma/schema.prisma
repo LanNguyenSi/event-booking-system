@@ -25,14 +25,22 @@ model Event {
   id                String    @id @default(cuid())
   title             String
   description       String    @db.Text
+  eventType         EventType // NEW: workshop, talk, webinar, meetup
+  
   startTime         DateTime
   endTime           DateTime?
   timezone          String    @default("Europe/Berlin")
   format            EventFormat
   location          String?   // Physical location or empty for remote
   meetingLink       String?   // Revealed after booking
+  
   totalSlots        Int
   availableSlots    Int
+  maxSlotsPerUser   Int       @default(1) // NEW: Prevent booking abuse
+  
+  organizerName     String?   // NEW: For multi-organizer future
+  organizerEmail    String?   // NEW: Contact info
+  
   coverImage        String?
   customFields      Json?     // Array of custom metadata fields to collect
   status            EventStatus @default(DRAFT)
@@ -45,6 +53,15 @@ model Event {
   @@index([startTime])
   @@index([status])
   @@map("events")
+}
+
+enum EventType {
+  WORKSHOP
+  TALK
+  WEBINAR
+  MEETUP
+  CONSULTATION
+  OTHER
 }
 
 enum EventFormat {
