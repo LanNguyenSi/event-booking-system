@@ -1,15 +1,15 @@
-# Talk Booking System
+# Event Booking System
 
-**Event booking platform for talks, workshops, and presentations**
+**Event booking platform for workshops, talks, webinars, meetups, and presentations**
 
 ## Mission
 
-Enable speakers to share their talks publicly and manage attendee bookings efficiently through a simple, beautiful web interface.
+Enable organizers to share their events publicly and manage attendee bookings efficiently through a simple, beautiful web interface.
 
 ## Problem Statement
 
-**For Speakers:**
-- Need an easy way to announce talks on social media
+**For Event Organizers:**
+- Need an easy way to announce events on social media
 - Want to limit attendees (slot management)
 - Need to collect attendee information
 - Want to manage multiple events easily
@@ -41,9 +41,9 @@ A lightweight event booking system with two interfaces:
 
 **Event Detail Page:**
 - Full event information
-- Speaker details
+- Organizer details
 - Date, time, timezone
-- Format (remote/in-person)
+- Format (remote/in-person/hybrid)
 - Location/meeting link (revealed after booking)
 - Available slots counter
 - Booking form
@@ -304,11 +304,11 @@ interface Admin {
 - Success confirmations
 - Undo actions (where applicable)
 
-## Example Use Case
+## Example Use Cases
 
-**Lan's AI Workshop:**
+### Use Case 1: AI Workshop
 
-1. Lan logs into admin panel
+1. Organizer logs into admin panel
 2. Creates event:
    - Title: "Introduction to AI Agents"
    - Description: "Learn how AI agents work and build your first chatbot"
@@ -316,14 +316,32 @@ interface Admin {
    - Format: Remote
    - Slots: 12
    - Custom fields: Company, LinkedIn, "Why are you interested?"
-3. Copies shareable URL: `https://talks.lan-nguyen-si.de/events/intro-ai-agents`
+3. Copies shareable URL: `https://events.example.com/events/intro-ai-agents`
 4. Posts on Twitter/LinkedIn
 5. Attendees visit link, read details, book slots
-6. Lan receives email notification on new bookings
-7. Before event, Lan exports attendee list (CSV)
-8. Lan sends meeting link via email (manual or automated)
+6. Organizer receives email notification on new bookings
+7. Before event, organizer exports attendee list (CSV)
+8. Organizer sends meeting link via email (manual or automated)
 9. Event happens
-10. Lan archives event, reviews attendee feedback
+10. Organizer archives event, reviews attendee feedback
+
+### Use Case 2: Startup Meetup
+
+1. Organizer creates in-person meetup
+2. Sets location, date, max 30 attendees
+3. Shares link in local Slack/Discord community
+4. Attendees book spots (name, email, "What are you building?")
+5. When full, new visitors see "Waitlist" option
+6. Organizer exports list, reserves venue accordingly
+
+### Use Case 3: Consultation Slots
+
+1. Consultant creates "Office Hours" event
+2. Sets 10 slots (30 min each)
+3. Shares booking link on website
+4. Clients book individual slots
+5. Auto-generated calendar invites sent
+6. Consultant sees daily schedule in admin panel
 
 ## Tech Stack (Recommendations)
 

@@ -1,4 +1,4 @@
-# Talk Booking System - Technical Architecture
+# Event Booking System - Technical Architecture
 
 ## System Overview
 
