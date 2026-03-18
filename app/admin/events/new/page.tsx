@@ -25,7 +25,7 @@ export default function CreateEventPage() {
       description: formData.get('description'),
       eventType: formData.get('eventType'),
       format: formData.get('format'),
-      startTime: formData.get('startTime'),
+      startTime: new Date(formData.get('startTime') as string).toISOString(),
       timezone: formData.get('timezone'),
       location: formData.get('location') || undefined,
       meetingLink: formData.get('meetingLink') || undefined,
