@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 /**
  * Event Detail Page
  * Shows event details and booking form

@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 /**
  * Public Events List Page
  * Shows all published events

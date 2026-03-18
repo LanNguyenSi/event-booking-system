@@ -1,0 +1,56 @@
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: event-booking-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: event_booking
+    ports:
+      - "5434:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - internal
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: event-booking-app
+    environment:
+      DATABASE_URL: "postgresql://postgres:postgres@db:5432/event_booking?schema=public"
+      JWT_SECRET: "ice-event-booking-production-secret-1773865759-secure-key"
+      NEXT_PUBLIC_APP_URL: "https://termine.lan-nguyen-si.de"
+      NODE_ENV: "production"
+    networks:
+      - internal
+      - traefik
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=traefik"
+      - "traefik.http.routers.event-booking.rule=Host(`termine.lan-nguyen-si.de`)"
+      - "traefik.http.routers.event-booking.entrypoints=websecure"
+      - "traefik.http.routers.event-booking.tls=true"
+      - "traefik.http.routers.event-booking.tls.certresolver=letsencrypt"
+      - "traefik.http.services.event-booking.loadbalancer.server.port=3000"
+
+networks:
+  internal:
+    driver: bridge
+  traefik:
+    external: true
+
+volumes:
+  postgres_data:
+    driver: local

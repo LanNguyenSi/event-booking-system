@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 /**
  * Admin Bookings Management Page
  * View all bookings with optional event filter

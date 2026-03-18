@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 /**
  * Admin Dashboard
  * Overview with stats and recent activity

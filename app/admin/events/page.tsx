@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 /**
  * Admin Events Management Page
  * List all events with edit/delete actions
