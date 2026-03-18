@@ -9,9 +9,10 @@ import { useState } from 'react';
 
 interface BookingFormProps {
   eventId: string;
+  disabled?: boolean;
 }
 
-export function BookingForm({ eventId }: BookingFormProps) {
+export function BookingForm({ eventId, disabled = false }: BookingFormProps) {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -180,7 +181,7 @@ export function BookingForm({ eventId }: BookingFormProps) {
       {/* Submit Button */}
       <button
         type="submit"
-        disabled={isSubmitting}
+        disabled={isSubmitting || disabled}
         className="w-full py-3 px-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
       >
         {isSubmitting ? 'Booking...' : 'Confirm Booking'}

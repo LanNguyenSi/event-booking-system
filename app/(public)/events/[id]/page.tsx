@@ -197,7 +197,7 @@ export default async function EventDetailPage({
                   </p>
                 </div>
               ) : (
-                <BookingForm eventId={event.id} />
+                <BookingForm eventId={event.id} disabled={isPast} />
               )}
             </div>
           </div>
