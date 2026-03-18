@@ -43,7 +43,7 @@ export default function EditEventPage() {
         const response = await fetch(`/api/events/${id}`);
         if (!response.ok) throw new Error('Event not found');
         const data = await response.json();
-        setEvent(data);
+        setEvent(data.event || data);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Failed to load event');
       } finally {
