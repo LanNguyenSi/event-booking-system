@@ -1,0 +1,41 @@
+{
+  "name": "event-booking-system",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LanNguyenSi/event-booking-system.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LanNguyenSi/event-booking-system/issues"
+  },
+  "homepage": "https://github.com/LanNguyenSi/event-booking-system#readme",
+  "dependencies": {
+    "@prisma/client": "^7.5.0",
+    "@types/node": "^25.5.0",
+    "@types/react": "^19.2.14",
+    "autoprefixer": "^10.4.27",
+    "bcrypt": "^6.0.0",
+    "date-fns": "^4.1.0",
+    "jsonwebtoken": "^9.0.3",
+    "next": "^16.2.0",
+    "postcss": "^8.5.8",
+    "prisma": "^7.5.0",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "react-hook-form": "^7.71.2",
+    "tailwindcss": "^4.2.2",
+    "typescript": "^5.9.3",
+    "zod": "^4.3.6"
+  }
+}

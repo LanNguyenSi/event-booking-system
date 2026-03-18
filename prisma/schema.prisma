@@ -1,0 +1,92 @@
+// Prisma Schema for Event Booking System
+// Based on Ice's Architecture
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Admin {
+  id           String   @id @default(cuid())
+  username     String   @unique
+  passwordHash String
+  email        String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@map("admins")
+}
+
+model Event {
+  id                String    @id @default(cuid())
+  title             String
+  description       String    @db.Text
+  startTime         DateTime
+  endTime           DateTime?
+  timezone          String    @default("Europe/Berlin")
+  format            EventFormat
+  location          String?   // Physical location or empty for remote
+  meetingLink       String?   // Revealed after booking
+  totalSlots        Int
+  availableSlots    Int
+  coverImage        String?
+  customFields      Json?     // Array of custom metadata fields to collect
+  status            EventStatus @default(DRAFT)
+  
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+  
+  bookings          Booking[]
+
+  @@index([startTime])
+  @@index([status])
+  @@map("events")
+}
+
+enum EventFormat {
+  REMOTE
+  IN_PERSON
+  HYBRID
+}
+
+enum EventStatus {
+  DRAFT
+  PUBLISHED
+  CANCELLED
+  COMPLETED
+}
+
+model Booking {
+  id             String   @id @default(cuid())
+  eventId        String
+  event          Event    @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  
+  // Attendee info
+  name           String
+  email          String
+  metadata       Json?    // Custom fields (company, role, etc.)
+  
+  slotNumber     Int?     // Optional slot numbering
+  status         BookingStatus @default(CONFIRMED)
+  
+  // Confirmation
+  confirmationSent Boolean @default(false)
+  confirmationToken String? @unique
+  
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  
+  @@index([eventId])
+  @@index([email])
+  @@map("bookings")
+}
+
+enum BookingStatus {
+  CONFIRMED
+  CANCELLED
+  ATTENDED
+}
