@@ -99,8 +99,10 @@ export default function EditEventPage() {
   };
 
   // Format datetime for input
-  const formatDatetime = (iso: string) => {
+  const formatDatetime = (iso: string | null) => {
+    if (!iso) return '';
     const d = new Date(iso);
+    if (isNaN(d.getTime())) return '';
     return d.toISOString().slice(0, 16);
   };
 
