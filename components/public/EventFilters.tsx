@@ -62,15 +62,15 @@ export function EventFilters({
   const hasFilters = !!(currentType || currentFormat || currentSearch);
 
   return (
-    <div className="bg-white rounded-lg shadow-sm p-6">
-      <div className="flex flex-col md:flex-row gap-4">
+    <div className="bg-white rounded-xl shadow-lg border border-gray-100 p-5">
+      <div className="flex flex-col md:flex-row gap-3">
         {/* Search */}
         <div className="flex-1">
           <label htmlFor="search" className="sr-only">
             Suche
           </label>
           <div className="relative">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
               <svg
                 className="h-5 w-5 text-gray-400"
                 fill="none"
@@ -90,7 +90,7 @@ export function EventFilters({
               id="search"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="block w-full pl-11 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 focus:bg-white transition-colors placeholder:text-gray-400"
               placeholder="Veranstaltungen durchsuchen..."
             />
           </div>
@@ -107,7 +107,7 @@ export function EventFilters({
             onChange={(e) =>
               updateFilters({ type: e.target.value || undefined })
             }
-            className="block w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="block w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 focus:bg-white transition-colors text-gray-700"
           >
             <option value="">Alle Typen</option>
             <option value="WORKSHOP">Workshop</option>
@@ -130,7 +130,7 @@ export function EventFilters({
             onChange={(e) =>
               updateFilters({ format: e.target.value || undefined })
             }
-            className="block w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="block w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 focus:bg-white transition-colors text-gray-700"
           >
             <option value="">Alle Formate</option>
             <option value="REMOTE">Online</option>
@@ -143,7 +143,7 @@ export function EventFilters({
         {hasFilters && (
           <button
             onClick={resetFilters}
-            className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors whitespace-nowrap"
+            className="px-4 py-2.5 text-sm font-medium text-indigo-600 bg-indigo-50 hover:bg-indigo-100 rounded-lg transition-colors whitespace-nowrap"
           >
             Filter zurücksetzen
           </button>
