@@ -12,6 +12,7 @@ const SALT_ROUNDS = 10;
 export interface JWTPayload {
   adminId: string;
   username: string;
+  role: string;
 }
 
 /**
