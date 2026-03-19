@@ -155,7 +155,7 @@ export default async function AdminDashboardPage() {
           <h2 className="text-lg font-semibold text-gray-900 mb-4">
             Schnellzugriff
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             <Link
               href="/admin/events/new"
               className="flex items-center justify-center px-4 py-3 border border-transparent rounded-lg text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 transition-colors"
@@ -173,6 +173,12 @@ export default async function AdminDashboardPage() {
               className="flex items-center justify-center px-4 py-3 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
             >
               Buchungen ansehen
+            </Link>
+            <Link
+              href="/admin/analytics"
+              className="flex items-center justify-center px-4 py-3 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
+            >
+              📊 Analytics
             </Link>
           </div>
         </div>
