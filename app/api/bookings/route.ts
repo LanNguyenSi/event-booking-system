@@ -6,6 +6,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { verifyToken, extractToken } from '@/lib/auth';
+import { sendBookingConfirmation } from '@/lib/email';
 
 // POST /api/bookings - Public endpoint
 export async function POST(request: NextRequest) {
@@ -75,6 +76,9 @@ export async function POST(request: NextRequest) {
           status: 'CONFIRMED',
           confirmationToken,
         },
+        include: {
+          event: true,
+        },
       }),
       prisma.event.update({
         where: { id: eventId },
@@ -85,6 +89,11 @@ export async function POST(request: NextRequest) {
         },
       }),
     ]);
+
+    // Send confirmation email (async, don't block response)
+    sendBookingConfirmation(booking).catch(error => {
+      console.error('Failed to send confirmation email:', error);
+    });
 
     return NextResponse.json({ booking }, { status: 201 });
   } catch (error) {

@@ -7,6 +7,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { verifyToken, extractToken } from '@/lib/auth';
+import { sendEventCancelled } from '@/lib/email';
 
 // GET /api/events/[id] - Public
 export async function GET(
@@ -144,6 +145,14 @@ export async function DELETE(
     // Soft delete: Set status to CANCELLED
     // If forced, also cancel all confirmed bookings and restore slots
     if (force && confirmedBookingsCount > 0) {
+      // Get all confirmed bookings before cancelling
+      const confirmedBookings = await prisma.booking.findMany({
+        where: {
+          eventId: id,
+          status: 'CONFIRMED',
+        },
+      });
+
       await prisma.$transaction([
         // Cancel all confirmed bookings
         prisma.booking.updateMany({
@@ -164,6 +173,11 @@ export async function DELETE(
           },
         }),
       ]);
+
+      // Send event cancellation emails to all attendees (async, don't block response)
+      sendEventCancelled(event, confirmedBookings).catch(error => {
+        console.error('Failed to send event cancellation emails:', error);
+      });
     } else {
       // No bookings, just cancel the event
       await prisma.event.update({
