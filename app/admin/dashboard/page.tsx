@@ -44,19 +44,19 @@ export default async function AdminDashboardPage() {
       {/* Header */}
       <header className="bg-white border-b border-gray-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5">
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div>
-              <h1 className="text-2xl font-extrabold text-gray-900 tracking-tight">
+              <h1 className="text-xl sm:text-2xl font-extrabold text-gray-900 tracking-tight">
                 Admin-Dashboard
               </h1>
               <p className="text-sm text-gray-500 mt-0.5">Veranstaltungsverwaltung</p>
             </div>
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-3">
               <Link
                 href="/events"
                 className="text-sm font-medium text-indigo-600 hover:text-indigo-800 transition-colors"
               >
-                Öffentliche Seite ansehen
+                Öffentliche Seite
               </Link>
               <LogoutButton />
             </div>
@@ -158,7 +158,7 @@ export default async function AdminDashboardPage() {
           <h2 className="text-lg font-bold text-gray-900 mb-4">
             Schnellzugriff
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
             <Link
               href="/admin/events/new"
               className="flex items-center justify-center px-4 py-3 rounded-xl text-sm font-semibold text-white bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 transition-all shadow-sm hover:shadow-md"
@@ -196,20 +196,20 @@ export default async function AdminDashboardPage() {
               Letzte Buchungen
             </h2>
           </div>
-          <div className="overflow-x-auto">
-            <table className="min-w-full">
+          <div className="overflow-x-auto -mx-6 px-6 sm:mx-0 sm:px-0">
+            <table className="min-w-full text-sm">
               <thead>
-                <tr className="bg-gray-50/80">
-                  <th className="px-6 py-3.5 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                <tr className="bg-gray-50/80 hidden sm:table-row">
+                  <th className="px-4 sm:px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
                     Name
                   </th>
-                  <th className="px-6 py-3.5 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                  <th className="px-4 sm:px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
                     E-Mail
                   </th>
-                  <th className="px-6 py-3.5 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                  <th className="px-4 sm:px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
                     Veranstaltung
                   </th>
-                  <th className="px-6 py-3.5 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                  <th className="px-4 sm:px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
                     Datum
                   </th>
                 </tr>
@@ -229,17 +229,21 @@ export default async function AdminDashboardPage() {
                   </tr>
                 ) : (
                   recentBookings.map((booking) => (
-                    <tr key={booking.id} className="hover:bg-gray-50/50 transition-colors">
-                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                    <tr key={booking.id} className="hover:bg-gray-50/50 transition-colors block sm:table-row border-b sm:border-b-0 border-gray-100 py-3 sm:py-0">
+                      <td className="px-4 sm:px-6 py-1 sm:py-4 block sm:table-cell font-medium text-gray-900">
+                        <span className="sm:hidden text-xs text-gray-400 mr-1">Name:</span>
                         {booking.name}
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      <td className="px-4 sm:px-6 py-1 sm:py-4 block sm:table-cell text-gray-500 truncate max-w-[200px]">
+                        <span className="sm:hidden text-xs text-gray-400 mr-1">E-Mail:</span>
                         {booking.email}
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+                      <td className="px-4 sm:px-6 py-1 sm:py-4 block sm:table-cell text-gray-700">
+                        <span className="sm:hidden text-xs text-gray-400 mr-1">Event:</span>
                         {booking.event.title}
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      <td className="px-4 sm:px-6 py-1 sm:py-4 block sm:table-cell text-gray-500">
+                        <span className="sm:hidden text-xs text-gray-400 mr-1">Datum:</span>
                         {new Date(booking.createdAt).toLocaleDateString('de-DE')}
                       </td>
                     </tr>
