@@ -61,6 +61,9 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Generate confirmation code (e.g., EVT-A3B7K9)
+    const confirmationToken = `EVT-${Math.random().toString(36).substring(2, 8).toUpperCase()}`;
+
     // Create booking and update available slots
     const [booking] = await prisma.$transaction([
       prisma.booking.create({
@@ -70,6 +73,7 @@ export async function POST(request: NextRequest) {
           email,
           metadata,
           status: 'CONFIRMED',
+          confirmationToken,
         },
       }),
       prisma.event.update({
