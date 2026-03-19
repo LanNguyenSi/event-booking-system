@@ -16,7 +16,7 @@ export async function POST(request: NextRequest) {
     // Validate required fields
     if (!eventId || !name || !email) {
       return NextResponse.json(
-        { error: 'Missing required fields' },
+        { error: 'Erforderliche Felder fehlen' },
         { status: 400 }
       );
     }
@@ -33,21 +33,21 @@ export async function POST(request: NextRequest) {
 
     if (!event) {
       return NextResponse.json(
-        { error: 'Event not found' },
+        { error: 'Veranstaltung nicht gefunden' },
         { status: 404 }
       );
     }
 
     if (event.status !== 'PUBLISHED') {
       return NextResponse.json(
-        { error: 'Event is not available for booking' },
+        { error: 'Veranstaltung ist nicht buchbar' },
         { status: 400 }
       );
     }
 
     if (event.availableSlots <= 0) {
       return NextResponse.json(
-        { error: 'No available slots' },
+        { error: 'Keine Plätze verfügbar' },
         { status: 400 }
       );
     }
@@ -86,7 +86,7 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.error('Error creating booking:', error);
     return NextResponse.json(
-      { error: 'Failed to create booking' },
+      { error: 'Buchung konnte nicht erstellt werden' },
       { status: 500 }
     );
   }
@@ -101,7 +101,7 @@ export async function GET(request: NextRequest) {
 
     if (!token || !verifyToken(token)) {
       return NextResponse.json(
-        { error: 'Unauthorized' },
+        { error: 'Nicht berechtigt' },
         { status: 401 }
       );
     }
@@ -131,7 +131,7 @@ export async function GET(request: NextRequest) {
   } catch (error) {
     console.error('Error fetching bookings:', error);
     return NextResponse.json(
-      { error: 'Failed to fetch bookings' },
+      { error: 'Buchungen konnten nicht geladen werden' },
       { status: 500 }
     );
   }

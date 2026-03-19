@@ -54,7 +54,7 @@ export default function CreateEventPage() {
 
       router.push('/admin/events');
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Something went wrong');
+      setError(err instanceof Error ? err.message : 'Etwas ist schiefgelaufen');
       setIsSubmitting(false);
     }
   };
@@ -67,9 +67,9 @@ export default function CreateEventPage() {
             href="/admin/events"
             className="text-blue-600 hover:text-blue-800 text-sm mb-2 inline-block"
           >
-            ← Back to Events
+            ← Zurück zu Veranstaltungen
           </Link>
-          <h1 className="text-2xl font-bold text-gray-900">Create New Event</h1>
+          <h1 className="text-2xl font-bold text-gray-900">Neue Veranstaltung erstellen</h1>
         </div>
       </header>
 
@@ -85,28 +85,28 @@ export default function CreateEventPage() {
             {/* Title */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Event Title *
+                Titel der Veranstaltung *
               </label>
               <input
                 type="text"
                 name="title"
                 required
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder="Introduction to AI Workshop"
+                placeholder="Einführung in KI Workshop"
               />
             </div>
 
             {/* Description */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Description *
+                Beschreibung *
               </label>
               <textarea
                 name="description"
                 required
                 rows={5}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder="Describe your event..."
+                placeholder="Beschreibe deine Veranstaltung..."
               />
             </div>
 
@@ -114,7 +114,7 @@ export default function CreateEventPage() {
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Event Type *
+                  Veranstaltungstyp *
                 </label>
                 <select
                   name="eventType"
@@ -122,11 +122,11 @@ export default function CreateEventPage() {
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 >
                   <option value="WORKSHOP">Workshop</option>
-                  <option value="TALK">Talk</option>
+                  <option value="TALK">Vortrag</option>
                   <option value="WEBINAR">Webinar</option>
                   <option value="MEETUP">Meetup</option>
-                  <option value="CONSULTATION">Consultation</option>
-                  <option value="OTHER">Other</option>
+                  <option value="CONSULTATION">Beratung</option>
+                  <option value="OTHER">Sonstiges</option>
                 </select>
               </div>
 
@@ -139,8 +139,8 @@ export default function CreateEventPage() {
                   required
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 >
-                  <option value="REMOTE">Remote</option>
-                  <option value="IN_PERSON">In Person</option>
+                  <option value="REMOTE">Online</option>
+                  <option value="IN_PERSON">Vor Ort</option>
                   <option value="HYBRID">Hybrid</option>
                 </select>
               </div>
@@ -150,7 +150,7 @@ export default function CreateEventPage() {
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Start Date & Time *
+                  Startdatum & Uhrzeit *
                 </label>
                 <input
                   type="datetime-local"
@@ -162,7 +162,7 @@ export default function CreateEventPage() {
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Timezone *
+                  Zeitzone *
                 </label>
                 <input
                   type="text"
@@ -178,19 +178,19 @@ export default function CreateEventPage() {
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Location
+                  Ort
                 </label>
                 <input
                   type="text"
                   name="location"
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  placeholder="Berlin, Germany"
+                  placeholder="Berlin, Deutschland"
                 />
               </div>
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Meeting Link
+                  Meeting-Link
                 </label>
                 <input
                   type="url"
@@ -205,7 +205,7 @@ export default function CreateEventPage() {
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Total Slots *
+                  Gesamtplätze *
                 </label>
                 <input
                   type="number"
@@ -219,7 +219,7 @@ export default function CreateEventPage() {
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Max Slots Per User *
+                  Max. Plätze pro Person *
                 </label>
                 <input
                   type="number"
@@ -236,25 +236,25 @@ export default function CreateEventPage() {
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Organizer Name
+                  Veranstalter Name
                 </label>
                 <input
                   type="text"
                   name="organizerName"
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  placeholder="John Doe"
+                  placeholder="Max Mustermann"
                 />
               </div>
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Organizer Email
+                  Veranstalter E-Mail
                 </label>
                 <input
                   type="email"
                   name="organizerEmail"
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  placeholder="john@example.com"
+                  placeholder="max@beispiel.de"
                 />
               </div>
             </div>
@@ -269,8 +269,8 @@ export default function CreateEventPage() {
                 required
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               >
-                <option value="DRAFT">Draft</option>
-                <option value="PUBLISHED">Published</option>
+                <option value="DRAFT">Entwurf</option>
+                <option value="PUBLISHED">Veröffentlicht</option>
               </select>
             </div>
 
@@ -281,13 +281,13 @@ export default function CreateEventPage() {
                 disabled={isSubmitting}
                 className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {isSubmitting ? 'Creating...' : 'Create Event'}
+                {isSubmitting ? 'Wird erstellt...' : 'Veranstaltung erstellen'}
               </button>
               <Link
                 href="/admin/events"
                 className="px-6 py-3 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 font-medium transition-colors"
               >
-                Cancel
+                Abbrechen
               </Link>
             </div>
           </form>

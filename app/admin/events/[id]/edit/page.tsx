@@ -1,7 +1,7 @@
 'use client';
 
 /**
- * Edit Event Page
+ * Veranstaltung bearbeiten Page
  * Loads existing event data and allows editing
  */
 
@@ -93,7 +93,7 @@ export default function EditEventPage() {
 
       router.push('/admin/events');
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Something went wrong');
+      setError(err instanceof Error ? err.message : 'Etwas ist schiefgelaufen');
       setIsSubmitting(false);
     }
   };
@@ -120,7 +120,7 @@ export default function EditEventPage() {
         <div className="text-center">
           <p className="text-red-600 mb-4">{error || 'Event not found'}</p>
           <Link href="/admin/events" className="text-blue-600 hover:text-blue-800">
-            ← Back to Events
+            ← Zurück zu Veranstaltungen
           </Link>
         </div>
       </div>
@@ -135,9 +135,9 @@ export default function EditEventPage() {
             href="/admin/events"
             className="text-blue-600 hover:text-blue-800 text-sm mb-2 inline-block"
           >
-            ← Back to Events
+            ← Zurück zu Veranstaltungen
           </Link>
-          <h1 className="text-2xl font-bold text-gray-900">Edit Event</h1>
+          <h1 className="text-2xl font-bold text-gray-900">Veranstaltung bearbeiten</h1>
         </div>
       </header>
 
@@ -153,7 +153,7 @@ export default function EditEventPage() {
             {/* Title */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Event Title *
+                Titel der Veranstaltung *
               </label>
               <input
                 type="text"
@@ -164,10 +164,10 @@ export default function EditEventPage() {
               />
             </div>
 
-            {/* Description */}
+            {/* Beschreibung */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Description *
+                Beschreibung *
               </label>
               <textarea
                 name="description"
@@ -182,7 +182,7 @@ export default function EditEventPage() {
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Event Type *
+                  Veranstaltungstyp *
                 </label>
                 <select
                   name="eventType"
@@ -191,11 +191,11 @@ export default function EditEventPage() {
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 >
                   <option value="WORKSHOP">Workshop</option>
-                  <option value="TALK">Talk</option>
+                  <option value="TALK">Vortrag</option>
                   <option value="WEBINAR">Webinar</option>
                   <option value="MEETUP">Meetup</option>
-                  <option value="CONSULTATION">Consultation</option>
-                  <option value="OTHER">Other</option>
+                  <option value="CONSULTATION">Beratung</option>
+                  <option value="OTHER">Sonstiges</option>
                 </select>
               </div>
 
@@ -209,8 +209,8 @@ export default function EditEventPage() {
                   defaultValue={event.format}
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 >
-                  <option value="REMOTE">Remote</option>
-                  <option value="IN_PERSON">In Person</option>
+                  <option value="REMOTE">Online</option>
+                  <option value="IN_PERSON">Vor Ort</option>
                   <option value="HYBRID">Hybrid</option>
                 </select>
               </div>
@@ -220,7 +220,7 @@ export default function EditEventPage() {
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Start Date & Time *
+                  Startdatum & Uhrzeit *
                 </label>
                 <input
                   type="datetime-local"
@@ -233,7 +233,7 @@ export default function EditEventPage() {
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Timezone *
+                  Zeitzone *
                 </label>
                 <input
                   type="text"
@@ -245,24 +245,24 @@ export default function EditEventPage() {
               </div>
             </div>
 
-            {/* Location & Meeting Link */}
+            {/* Ort & Meeting-Link */}
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Location
+                  Ort
                 </label>
                 <input
                   type="text"
                   name="location"
                   defaultValue={event.location || ''}
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  placeholder="Berlin, Germany"
+                  placeholder="Berlin, Deutschland"
                 />
               </div>
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Meeting Link
+                  Meeting-Link
                 </label>
                 <input
                   type="url"
@@ -278,7 +278,7 @@ export default function EditEventPage() {
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Total Slots *
+                  Gesamtplätze *
                 </label>
                 <input
                   type="number"
@@ -295,7 +295,7 @@ export default function EditEventPage() {
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Max Slots Per User *
+                  Max. Plätze pro Person *
                 </label>
                 <input
                   type="number"
@@ -312,7 +312,7 @@ export default function EditEventPage() {
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Organizer Name
+                  Veranstalter Name
                 </label>
                 <input
                   type="text"
@@ -324,7 +324,7 @@ export default function EditEventPage() {
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Organizer Email
+                  Veranstalter E-Mail
                 </label>
                 <input
                   type="email"
@@ -346,9 +346,9 @@ export default function EditEventPage() {
                 defaultValue={event.status}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               >
-                <option value="DRAFT">Draft</option>
-                <option value="PUBLISHED">Published</option>
-                <option value="CANCELLED">Cancelled</option>
+                <option value="DRAFT">Entwurf</option>
+                <option value="PUBLISHED">Veröffentlicht</option>
+                <option value="CANCELLED">Abgesagt</option>
               </select>
             </div>
 

@@ -2,7 +2,7 @@ export const dynamic = "force-dynamic";
 
 /**
  * Admin Bookings Management Page
- * View all bookings with optional event filter + Cancel functionality
+ * Alle Buchungen ansehen with optional event filter + Cancel functionality
  */
 
 import { prisma } from '@/lib/prisma';
@@ -18,7 +18,7 @@ export default async function AdminBookingsPage({
 
   const where = eventId ? { eventId } : {};
 
-  const [bookings, event] = await Promise.all([
+  const [Buchungen, event] = await Promise.all([
     prisma.booking.findMany({
       where,
       orderBy: {
@@ -53,22 +53,22 @@ export default async function AdminBookingsPage({
                 href="/admin/dashboard"
                 className="text-blue-600 hover:text-blue-800 text-sm mb-2 inline-block"
               >
-                ← Back to Dashboard
+                ← Zurück zum Dashboard
               </Link>
               <h1 className="text-2xl font-bold text-gray-900">
-                {event ? `Bookings: ${event.title}` : 'All Bookings'}
+                {event ? `Buchungen: ${event.title}` : 'Alle Buchungen'}
               </h1>
               {event && (
                 <Link
-                  href="/admin/bookings"
+                  href="/admin/Buchungen"
                   className="text-sm text-gray-600 hover:text-gray-900 mt-1 inline-block"
                 >
-                  View all bookings
+                  Alle Buchungen ansehen
                 </Link>
               )}
             </div>
             <div className="text-sm text-gray-600">
-              Total: {bookings.length} bookings
+              Gesamt: {Buchungen.length} Buchungen
             </div>
           </div>
         </div>
@@ -92,10 +92,10 @@ export default async function AdminBookingsPage({
                     </th>
                   )}
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Company
+                    Firma
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Role
+                    Position
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Booked At
@@ -104,22 +104,22 @@ export default async function AdminBookingsPage({
                     Status
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Actions
+                    Aktionen
                   </th>
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-                {bookings.length === 0 ? (
+                {Buchungen.length === 0 ? (
                   <tr>
                     <td
                       colSpan={eventId ? 7 : 8}
                       className="px-6 py-8 text-center text-gray-500"
                     >
-                      No bookings yet
+                      Noch keine Buchungen
                     </td>
                   </tr>
                 ) : (
-                  bookings.map((booking) => {
+                  Buchungen.map((booking) => {
                     const metadata = booking.metadata as any;
                     return (
                       <tr key={booking.id}>
@@ -132,7 +132,7 @@ export default async function AdminBookingsPage({
                         {!eventId && (
                           <td className="px-6 py-4 text-sm text-gray-900">
                             <Link
-                              href={`/admin/bookings?eventId=${booking.event.id}`}
+                              href={`/admin/Buchungen?eventId=${booking.event.id}`}
                               className="text-blue-600 hover:text-blue-800"
                             >
                               {booking.event.title}

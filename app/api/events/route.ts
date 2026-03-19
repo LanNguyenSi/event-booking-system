@@ -53,7 +53,7 @@ export async function POST(request: NextRequest) {
 
     if (!token) {
       return NextResponse.json(
-        { error: 'Unauthorized' },
+        { error: 'Nicht berechtigt' },
         { status: 401 }
       );
     }
@@ -90,7 +90,7 @@ export async function POST(request: NextRequest) {
     // Validate required fields
     if (!title || !description || !eventType || !startTime || !format || !totalSlots) {
       return NextResponse.json(
-        { error: 'Missing required fields' },
+        { error: 'Erforderliche Felder fehlen' },
         { status: 400 }
       );
     }
@@ -122,7 +122,7 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.error('Error creating event:', error);
     return NextResponse.json(
-      { error: 'Failed to create event' },
+      { error: 'Veranstaltung konnte nicht erstellt werden' },
       { status: 500 }
     );
   }
