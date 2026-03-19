@@ -2,20 +2,51 @@ export const dynamic = "force-dynamic";
 
 /**
  * Public Events List Page
- * Shows all published events
+ * Shows all published events with filters
  */
 
 import { EventCard } from '@/components/public/EventCard';
+import { EventFilters } from '@/components/public/EventFilters';
 import { prisma } from '@/lib/prisma';
+import { Prisma } from '@prisma/client';
 
-export default async function EventsPage() {
-  const events = await prisma.event.findMany({
-    where: {
-      status: 'PUBLISHED',
-      startTime: {
-        gte: new Date(), // Only upcoming events
-      },
+interface EventsPageProps {
+  searchParams: Promise<{
+    type?: string;
+    format?: string;
+    search?: string;
+  }>;
+}
+
+export default async function EventsPage({ searchParams }: EventsPageProps) {
+  const params = await searchParams;
+  const { type, format, search } = params;
+
+  // Build where clause with filters
+  const where: Prisma.EventWhereInput = {
+    status: 'PUBLISHED',
+    startTime: {
+      gte: new Date(), // Only upcoming events
     },
+  };
+
+  if (type) {
+    where.eventType = type as any;
+  }
+
+  if (format) {
+    where.format = format as any;
+  }
+
+  if (search) {
+    where.OR = [
+      { title: { contains: search, mode: 'insensitive' } },
+      { description: { contains: search, mode: 'insensitive' } },
+    ];
+  }
+
+  const events = await prisma.event.findMany({
+    where,
     orderBy: {
       startTime: 'asc',
     },
@@ -25,6 +56,11 @@ export default async function EventsPage() {
       },
     },
   });
+
+  const hasFilters = !!(type || format || search);
+  const resultsText = hasFilters
+    ? `${events.length} ${events.length === 1 ? 'Veranstaltung gefunden' : 'Veranstaltungen gefunden'}`
+    : '';
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -40,8 +76,24 @@ export default async function EventsPage() {
         </div>
       </header>
 
+      {/* Filters */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <EventFilters
+          currentType={type}
+          currentFormat={format}
+          currentSearch={search}
+        />
+      </div>
+
+      {/* Results Count */}
+      {hasFilters && (
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-4">
+          <p className="text-sm text-gray-600">{resultsText}</p>
+        </div>
+      )}
+
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-8">
         {events.length === 0 ? (
           <div className="text-center py-12">
             <svg
@@ -58,10 +110,14 @@ export default async function EventsPage() {
               />
             </svg>
             <h3 className="mt-2 text-lg font-medium text-gray-900">
-              Keine kommenden Veranstaltungen
+              {hasFilters
+                ? 'Keine Veranstaltungen gefunden'
+                : 'Keine kommenden Veranstaltungen'}
             </h3>
             <p className="mt-1 text-gray-500">
-              Schauen Sie später noch einmal vorbei!
+              {hasFilters
+                ? 'Versuchen Sie es mit anderen Filtern'
+                : 'Schauen Sie später noch einmal vorbei!'}
             </p>
           </div>
         ) : (
