@@ -67,38 +67,40 @@ export function BookingForm({ eventId, disabled = false }: BookingFormProps) {
   if (success) {
     return (
       <div className="text-center py-6">
-        <div className="mb-4">
-          <svg
-            className="mx-auto h-12 w-12 text-green-500"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-            />
-          </svg>
+        <div className="mb-5">
+          <div className={`inline-flex items-center justify-center w-16 h-16 rounded-full ${isWaitlisted ? 'bg-amber-50' : 'bg-emerald-50'}`}>
+            <svg
+              className={`h-8 w-8 ${isWaitlisted ? 'text-amber-500' : 'text-emerald-500'}`}
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
+            </svg>
+          </div>
         </div>
-        <h3 className="text-lg font-semibold text-gray-900 mb-2">
+        <h3 className="text-lg font-bold text-gray-900 mb-2">
           {isWaitlisted ? 'Auf Warteliste!' : 'Buchung bestätigt!'}
         </h3>
-        <p className="text-gray-600 text-sm mb-4">
-          {isWaitlisted 
+        <p className="text-gray-500 text-sm mb-5 leading-relaxed">
+          {isWaitlisted
             ? 'Die Veranstaltung ist ausgebucht. Sie wurden auf die Warteliste gesetzt und werden automatisch benachrichtigt, sobald ein Platz frei wird.'
             : 'Sie erhalten in Kürze eine Bestätigungs-E-Mail.'
           }
         </p>
-        
+
         {confirmationCode && (
-          <div className={`mb-6 p-4 rounded-lg border ${isWaitlisted ? 'bg-orange-50 border-orange-200' : 'bg-blue-50 border-blue-200'}`}>
-            <p className="text-sm text-gray-700 mb-2">{isWaitlisted ? 'Ihr Wartelisten-Code:' : 'Ihr Bestätigungscode:'}</p>
-            <p className={`text-2xl font-mono font-bold tracking-wider mb-3 ${isWaitlisted ? 'text-orange-900' : 'text-blue-900'}`}>
+          <div className={`mb-6 p-5 rounded-xl border ${isWaitlisted ? 'bg-amber-50 border-amber-200' : 'bg-indigo-50 border-indigo-200'}`}>
+            <p className="text-sm text-gray-600 mb-2">{isWaitlisted ? 'Ihr Wartelisten-Code:' : 'Ihr Bestätigungscode:'}</p>
+            <p className={`text-2xl font-mono font-bold tracking-wider mb-3 ${isWaitlisted ? 'text-amber-800' : 'text-indigo-800'}`}>
               {confirmationCode}
             </p>
-            <p className="text-xs text-gray-600 mb-3">
+            <p className="text-xs text-gray-500 mb-4 leading-relaxed">
               {isWaitlisted
                 ? 'Bitte bewahren Sie diesen Code auf. Sie werden automatisch informiert, wenn ein Platz frei wird.'
                 : 'Bitte bewahren Sie diesen Code auf. Sie können damit Ihre Buchung jederzeit einsehen oder stornieren.'
@@ -106,9 +108,12 @@ export function BookingForm({ eventId, disabled = false }: BookingFormProps) {
             </p>
             <a
               href="/bookings/lookup"
-              className={`inline-block hover:underline text-sm font-medium ${isWaitlisted ? 'text-orange-600' : 'text-blue-600'}`}
+              className={`inline-flex items-center text-sm font-medium transition-colors ${isWaitlisted ? 'text-amber-700 hover:text-amber-900' : 'text-indigo-600 hover:text-indigo-800'}`}
             >
-              {isWaitlisted ? 'Wartelisten-Status prüfen' : 'Buchung verwalten'} →
+              {isWaitlisted ? 'Wartelisten-Status prüfen' : 'Buchung verwalten'}
+              <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
             </a>
           </div>
         )}
@@ -118,7 +123,7 @@ export function BookingForm({ eventId, disabled = false }: BookingFormProps) {
             setSuccess(false);
             setConfirmationCode('');
           }}
-          className="text-blue-600 hover:text-blue-800 text-sm font-medium"
+          className="text-indigo-600 hover:text-indigo-800 text-sm font-medium transition-colors"
         >
           Weiteren Platz buchen
         </button>
@@ -129,7 +134,7 @@ export function BookingForm({ eventId, disabled = false }: BookingFormProps) {
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       {error && (
-        <div className="p-3 rounded-lg bg-red-50 border border-red-200">
+        <div className="p-3.5 rounded-xl bg-red-50 border border-red-200">
           <p className="text-sm text-red-600">{error}</p>
         </div>
       )}
@@ -138,7 +143,7 @@ export function BookingForm({ eventId, disabled = false }: BookingFormProps) {
       <div>
         <label
           htmlFor="name"
-          className="block text-sm font-medium text-gray-700 mb-1"
+          className="block text-sm font-medium text-gray-700 mb-1.5"
         >
           Vollständiger Name *
         </label>
@@ -148,8 +153,8 @@ export function BookingForm({ eventId, disabled = false }: BookingFormProps) {
           required
           value={formData.name}
           onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-          placeholder="John Doe"
+          className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 focus:bg-white transition-colors placeholder:text-gray-400"
+          placeholder="Max Mustermann"
         />
       </div>
 
@@ -157,9 +162,9 @@ export function BookingForm({ eventId, disabled = false }: BookingFormProps) {
       <div>
         <label
           htmlFor="email"
-          className="block text-sm font-medium text-gray-700 mb-1"
+          className="block text-sm font-medium text-gray-700 mb-1.5"
         >
-          Email *
+          E-Mail *
         </label>
         <input
           type="email"
@@ -167,8 +172,8 @@ export function BookingForm({ eventId, disabled = false }: BookingFormProps) {
           required
           value={formData.email}
           onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-          placeholder="john@example.com"
+          className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 focus:bg-white transition-colors placeholder:text-gray-400"
+          placeholder="max@beispiel.de"
         />
       </div>
 
@@ -176,7 +181,7 @@ export function BookingForm({ eventId, disabled = false }: BookingFormProps) {
       <div>
         <label
           htmlFor="company"
-          className="block text-sm font-medium text-gray-700 mb-1"
+          className="block text-sm font-medium text-gray-700 mb-1.5"
         >
           Firma/Organisation
         </label>
@@ -187,8 +192,8 @@ export function BookingForm({ eventId, disabled = false }: BookingFormProps) {
           onChange={(e) =>
             setFormData({ ...formData, company: e.target.value })
           }
-          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-          placeholder="Acme Inc"
+          className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 focus:bg-white transition-colors placeholder:text-gray-400"
+          placeholder="Beispiel GmbH"
         />
       </div>
 
@@ -196,7 +201,7 @@ export function BookingForm({ eventId, disabled = false }: BookingFormProps) {
       <div>
         <label
           htmlFor="role"
-          className="block text-sm font-medium text-gray-700 mb-1"
+          className="block text-sm font-medium text-gray-700 mb-1.5"
         >
           Position/Rolle
         </label>
@@ -205,8 +210,8 @@ export function BookingForm({ eventId, disabled = false }: BookingFormProps) {
           id="role"
           value={formData.role}
           onChange={(e) => setFormData({ ...formData, role: e.target.value })}
-          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-          placeholder="Software Engineer"
+          className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 focus:bg-white transition-colors placeholder:text-gray-400"
+          placeholder="Softwareentwickler/in"
         />
       </div>
 
@@ -214,12 +219,12 @@ export function BookingForm({ eventId, disabled = false }: BookingFormProps) {
       <button
         type="submit"
         disabled={isSubmitting || disabled}
-        className="w-full py-3 px-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+        className="w-full py-3 px-4 bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white font-semibold rounded-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-sm hover:shadow-md"
       >
         {isSubmitting ? 'Wird gebucht...' : 'Buchung bestätigen'}
       </button>
 
-      <p className="text-xs text-gray-500 text-center">
+      <p className="text-xs text-gray-400 text-center">
         Mit der Buchung stimmen Sie zu, Updates per E-Mail zu erhalten
       </p>
     </form>

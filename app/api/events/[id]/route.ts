@@ -103,9 +103,10 @@ export async function DELETE(
       );
     }
 
-    // Check for force parameter
+    // Check for query parameters
     const { searchParams } = new URL(request.url);
     const force = searchParams.get('force') === 'true';
+    const permanent = searchParams.get('permanent') === 'true';
 
     // Get event with confirmed bookings count
     const event = await prisma.event.findUnique({
@@ -128,12 +129,33 @@ export async function DELETE(
       );
     }
 
+    // Permanent deletion: hard-delete from database (only for CANCELLED events)
+    if (permanent) {
+      if (event.status !== 'CANCELLED') {
+        return NextResponse.json(
+          {
+            error: 'Die Veranstaltung muss zuerst storniert werden, bevor sie endgültig gelöscht werden kann.',
+          },
+          { status: 400 }
+        );
+      }
+
+      await prisma.event.delete({
+        where: { id },
+      });
+
+      return NextResponse.json({
+        success: true,
+        message: 'Veranstaltung endgültig gelöscht',
+      });
+    }
+
     const confirmedBookingsCount = event._count.bookings;
 
     // If event has confirmed bookings and force=false, return warning
     if (confirmedBookingsCount > 0 && !force) {
       return NextResponse.json(
-        { 
+        {
           error: 'Event has confirmed bookings',
           confirmedBookingsCount,
           message: `This event has ${confirmedBookingsCount} confirmed booking(s). Add ?force=true to proceed with cancellation.`
@@ -188,7 +210,7 @@ export async function DELETE(
       });
     }
 
-    return NextResponse.json({ 
+    return NextResponse.json({
       success: true,
       message: 'Event cancelled successfully',
       cancelledBookings: force ? confirmedBookingsCount : 0,

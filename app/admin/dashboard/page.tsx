@@ -40,18 +40,21 @@ export default async function AdminDashboardPage() {
     ]);
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
       {/* Header */}
-      <header className="bg-white shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      <header className="bg-white border-b border-gray-100">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5">
           <div className="flex items-center justify-between">
-            <h1 className="text-2xl font-bold text-gray-900">
-              Admin Dashboard
-            </h1>
+            <div>
+              <h1 className="text-2xl font-extrabold text-gray-900 tracking-tight">
+                Admin-Dashboard
+              </h1>
+              <p className="text-sm text-gray-500 mt-0.5">Veranstaltungsverwaltung</p>
+            </div>
             <div className="flex items-center gap-4">
               <Link
                 href="/events"
-                className="text-blue-600 hover:text-blue-800 text-sm"
+                className="text-sm font-medium text-indigo-600 hover:text-indigo-800 transition-colors"
               >
                 Öffentliche Seite ansehen
               </Link>
@@ -65,9 +68,9 @@ export default async function AdminDashboardPage() {
         {/* Stats Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           {/* Total Events */}
-          <div className="bg-white rounded-lg shadow p-6">
+          <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition-shadow">
             <div className="flex items-center">
-              <div className="flex-shrink-0 bg-blue-500 rounded-md p-3">
+              <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-gradient-to-br from-indigo-500 to-indigo-600 flex items-center justify-center shadow-sm">
                 <svg
                   className="h-6 w-6 text-white"
                   fill="none"
@@ -86,7 +89,7 @@ export default async function AdminDashboardPage() {
                 <p className="text-sm font-medium text-gray-500">
                   Veranstaltungen gesamt
                 </p>
-                <p className="text-2xl font-bold text-gray-900">
+                <p className="text-3xl font-extrabold text-gray-900">
                   {totalEvents}
                 </p>
               </div>
@@ -94,9 +97,9 @@ export default async function AdminDashboardPage() {
           </div>
 
           {/* Upcoming Events */}
-          <div className="bg-white rounded-lg shadow p-6">
+          <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition-shadow">
             <div className="flex items-center">
-              <div className="flex-shrink-0 bg-green-500 rounded-md p-3">
+              <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-500 to-emerald-600 flex items-center justify-center shadow-sm">
                 <svg
                   className="h-6 w-6 text-white"
                   fill="none"
@@ -113,7 +116,7 @@ export default async function AdminDashboardPage() {
               </div>
               <div className="ml-4">
                 <p className="text-sm font-medium text-gray-500">Kommende</p>
-                <p className="text-2xl font-bold text-gray-900">
+                <p className="text-3xl font-extrabold text-gray-900">
                   {upcomingEvents}
                 </p>
               </div>
@@ -121,9 +124,9 @@ export default async function AdminDashboardPage() {
           </div>
 
           {/* Total Bookings */}
-          <div className="bg-white rounded-lg shadow p-6">
+          <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition-shadow">
             <div className="flex items-center">
-              <div className="flex-shrink-0 bg-purple-500 rounded-md p-3">
+              <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-gradient-to-br from-violet-500 to-violet-600 flex items-center justify-center shadow-sm">
                 <svg
                   className="h-6 w-6 text-white"
                   fill="none"
@@ -142,7 +145,7 @@ export default async function AdminDashboardPage() {
                 <p className="text-sm font-medium text-gray-500">
                   Buchungen gesamt
                 </p>
-                <p className="text-2xl font-bold text-gray-900">
+                <p className="text-3xl font-extrabold text-gray-900">
                   {totalBookings}
                 </p>
               </div>
@@ -151,83 +154,89 @@ export default async function AdminDashboardPage() {
         </div>
 
         {/* Quick Actions */}
-        <div className="bg-white rounded-lg shadow p-6 mb-8">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">
+        <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 mb-8">
+          <h2 className="text-lg font-bold text-gray-900 mb-4">
             Schnellzugriff
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             <Link
               href="/admin/events/new"
-              className="flex items-center justify-center px-4 py-3 border border-transparent rounded-lg text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 transition-colors"
+              className="flex items-center justify-center px-4 py-3 rounded-xl text-sm font-semibold text-white bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 transition-all shadow-sm hover:shadow-md"
             >
-              + Neue Veranstaltung erstellen
+              <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+              </svg>
+              Neue Veranstaltung
             </Link>
             <Link
               href="/admin/events"
-              className="flex items-center justify-center px-4 py-3 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
+              className="flex items-center justify-center px-4 py-3 border border-gray-200 rounded-xl text-sm font-medium text-gray-700 hover:bg-gray-50 hover:border-gray-300 transition-all"
             >
               Veranstaltungen verwalten
             </Link>
             <Link
               href="/admin/bookings"
-              className="flex items-center justify-center px-4 py-3 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
+              className="flex items-center justify-center px-4 py-3 border border-gray-200 rounded-xl text-sm font-medium text-gray-700 hover:bg-gray-50 hover:border-gray-300 transition-all"
             >
               Buchungen ansehen
             </Link>
             <Link
               href="/admin/analytics"
-              className="flex items-center justify-center px-4 py-3 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
+              className="flex items-center justify-center px-4 py-3 border border-gray-200 rounded-xl text-sm font-medium text-gray-700 hover:bg-gray-50 hover:border-gray-300 transition-all"
             >
-              📊 Analytics
+              Statistiken
             </Link>
           </div>
         </div>
 
         {/* Recent Bookings */}
-        <div className="bg-white rounded-lg shadow">
-          <div className="px-6 py-4 border-b border-gray-200">
-            <h2 className="text-lg font-semibold text-gray-900">
+        <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+          <div className="px-6 py-5 border-b border-gray-100">
+            <h2 className="text-lg font-bold text-gray-900">
               Letzte Buchungen
             </h2>
           </div>
           <div className="overflow-x-auto">
-            <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-gray-50">
-                <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            <table className="min-w-full">
+              <thead>
+                <tr className="bg-gray-50/80">
+                  <th className="px-6 py-3.5 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
                     Name
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3.5 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
                     E-Mail
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3.5 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
                     Veranstaltung
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3.5 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
                     Datum
                   </th>
                 </tr>
               </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
+              <tbody className="divide-y divide-gray-50">
                 {recentBookings.length === 0 ? (
                   <tr>
                     <td
                       colSpan={4}
-                      className="px-6 py-8 text-center text-gray-500"
+                      className="px-6 py-12 text-center text-gray-400"
                     >
-                      Noch keine Buchungen
+                      <svg className="mx-auto h-8 w-8 text-gray-300 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                      </svg>
+                      Noch keine Buchungen vorhanden
                     </td>
                   </tr>
                 ) : (
                   recentBookings.map((booking) => (
-                    <tr key={booking.id}>
+                    <tr key={booking.id} className="hover:bg-gray-50/50 transition-colors">
                       <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                         {booking.name}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                         {booking.email}
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
                         {booking.event.title}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">

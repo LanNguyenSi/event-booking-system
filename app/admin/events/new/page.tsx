@@ -1,8 +1,8 @@
 'use client';
 
 /**
- * Create Event Page (MVP)
- * Simple form to create new events
+ * Create Event Page
+ * Form to create new events
  */
 
 import { useState } from 'react';
@@ -59,233 +59,156 @@ export default function CreateEventPage() {
     }
   };
 
+  const inputClasses = "w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 focus:bg-white transition-colors placeholder:text-gray-400";
+  const labelClasses = "block text-sm font-medium text-gray-700 mb-1.5";
+
   return (
-    <div className="min-h-screen bg-gray-100">
-      <header className="bg-white shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
+      <header className="bg-white border-b border-gray-100">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5">
           <Link
             href="/admin/events"
-            className="text-blue-600 hover:text-blue-800 text-sm mb-2 inline-block"
+            className="inline-flex items-center text-sm font-medium text-indigo-600 hover:text-indigo-800 transition-colors mb-2"
           >
-            ← Zurück zu Veranstaltungen
+            <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+            Zurück zu Veranstaltungen
           </Link>
-          <h1 className="text-2xl font-bold text-gray-900">Neue Veranstaltung erstellen</h1>
+          <h1 className="text-2xl font-extrabold text-gray-900 tracking-tight">Neue Veranstaltung erstellen</h1>
         </div>
       </header>
 
       <main className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="bg-white rounded-lg shadow p-6">
+        <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
           {error && (
-            <div className="mb-6 p-4 rounded-lg bg-red-50 border border-red-200">
+            <div className="mx-8 mt-8 p-4 rounded-xl bg-red-50 border border-red-200">
               <p className="text-sm text-red-600">{error}</p>
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="space-y-6">
-            {/* Title */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Titel der Veranstaltung *
-              </label>
-              <input
-                type="text"
-                name="title"
-                required
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder="Einführung in KI Workshop"
-              />
-            </div>
-
-            {/* Description */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Beschreibung *
-              </label>
-              <textarea
-                name="description"
-                required
-                rows={5}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder="Beschreibe deine Veranstaltung..."
-              />
-            </div>
-
-            {/* Type & Format */}
-            <div className="grid grid-cols-2 gap-4">
+          <form onSubmit={handleSubmit}>
+            {/* Basic Info Section */}
+            <div className="p-8 space-y-6">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Veranstaltungstyp *
-                </label>
-                <select
-                  name="eventType"
-                  required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                >
-                  <option value="WORKSHOP">Workshop</option>
-                  <option value="TALK">Vortrag</option>
-                  <option value="WEBINAR">Webinar</option>
-                  <option value="MEETUP">Meetup</option>
-                  <option value="CONSULTATION">Beratung</option>
-                  <option value="OTHER">Sonstiges</option>
-                </select>
+                <h3 className="text-base font-bold text-gray-900 mb-4 pb-2 border-b border-gray-100">Grundinformationen</h3>
+                <div className="space-y-5">
+                  <div>
+                    <label className={labelClasses}>Titel der Veranstaltung *</label>
+                    <input type="text" name="title" required className={inputClasses} placeholder="Einführung in KI Workshop" />
+                  </div>
+                  <div>
+                    <label className={labelClasses}>Beschreibung *</label>
+                    <textarea name="description" required rows={5} className={inputClasses} placeholder="Beschreibe deine Veranstaltung..." />
+                  </div>
+                </div>
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Format *
-                </label>
-                <select
-                  name="format"
-                  required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                >
-                  <option value="REMOTE">Online</option>
-                  <option value="IN_PERSON">Vor Ort</option>
-                  <option value="HYBRID">Hybrid</option>
-                </select>
-              </div>
-            </div>
-
-            {/* Date & Time */}
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Startdatum & Uhrzeit *
-                </label>
-                <input
-                  type="datetime-local"
-                  name="startTime"
-                  required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                />
+                <h3 className="text-base font-bold text-gray-900 mb-4 pb-2 border-b border-gray-100">Art und Format</h3>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className={labelClasses}>Veranstaltungstyp *</label>
+                    <select name="eventType" required className={inputClasses}>
+                      <option value="WORKSHOP">Workshop</option>
+                      <option value="TALK">Vortrag</option>
+                      <option value="WEBINAR">Webinar</option>
+                      <option value="MEETUP">Meetup</option>
+                      <option value="CONSULTATION">Beratung</option>
+                      <option value="OTHER">Sonstiges</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className={labelClasses}>Format *</label>
+                    <select name="format" required className={inputClasses}>
+                      <option value="REMOTE">Online</option>
+                      <option value="IN_PERSON">Vor Ort</option>
+                      <option value="HYBRID">Hybrid</option>
+                    </select>
+                  </div>
+                </div>
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Zeitzone *
-                </label>
-                <input
-                  type="text"
-                  name="timezone"
-                  required
-                  defaultValue="Europe/Berlin"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                />
-              </div>
-            </div>
-
-            {/* Location & Meeting Link */}
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Ort
-                </label>
-                <input
-                  type="text"
-                  name="location"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  placeholder="Berlin, Deutschland"
-                />
+                <h3 className="text-base font-bold text-gray-900 mb-4 pb-2 border-b border-gray-100">Termin</h3>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className={labelClasses}>Startdatum & Uhrzeit *</label>
+                    <input type="datetime-local" name="startTime" required className={inputClasses} />
+                  </div>
+                  <div>
+                    <label className={labelClasses}>Zeitzone *</label>
+                    <input type="text" name="timezone" required defaultValue="Europe/Berlin" className={inputClasses} />
+                  </div>
+                </div>
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Meeting-Link
-                </label>
-                <input
-                  type="url"
-                  name="meetingLink"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  placeholder="https://zoom.us/..."
-                />
+                <h3 className="text-base font-bold text-gray-900 mb-4 pb-2 border-b border-gray-100">Ort und Zugang</h3>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className={labelClasses}>Ort</label>
+                    <input type="text" name="location" className={inputClasses} placeholder="Berlin, Deutschland" />
+                  </div>
+                  <div>
+                    <label className={labelClasses}>Meeting-Link</label>
+                    <input type="url" name="meetingLink" className={inputClasses} placeholder="https://zoom.us/..." />
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <h3 className="text-base font-bold text-gray-900 mb-4 pb-2 border-b border-gray-100">Kapazität</h3>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className={labelClasses}>Gesamtplätze *</label>
+                    <input type="number" name="totalSlots" required min="1" defaultValue="12" className={inputClasses} />
+                  </div>
+                  <div>
+                    <label className={labelClasses}>Max. Plätze pro Person *</label>
+                    <input type="number" name="maxSlotsPerUser" required min="1" defaultValue="1" className={inputClasses} />
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <h3 className="text-base font-bold text-gray-900 mb-4 pb-2 border-b border-gray-100">Veranstalter</h3>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className={labelClasses}>Veranstalter Name</label>
+                    <input type="text" name="organizerName" className={inputClasses} placeholder="Max Mustermann" />
+                  </div>
+                  <div>
+                    <label className={labelClasses}>Veranstalter E-Mail</label>
+                    <input type="email" name="organizerEmail" className={inputClasses} placeholder="max@beispiel.de" />
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <h3 className="text-base font-bold text-gray-900 mb-4 pb-2 border-b border-gray-100">Veröffentlichung</h3>
+                <div>
+                  <label className={labelClasses}>Status *</label>
+                  <select name="status" required className={inputClasses}>
+                    <option value="DRAFT">Entwurf</option>
+                    <option value="PUBLISHED">Veröffentlicht</option>
+                  </select>
+                </div>
               </div>
             </div>
 
-            {/* Slots */}
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Gesamtplätze *
-                </label>
-                <input
-                  type="number"
-                  name="totalSlots"
-                  required
-                  min="1"
-                  defaultValue="12"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Max. Plätze pro Person *
-                </label>
-                <input
-                  type="number"
-                  name="maxSlotsPerUser"
-                  required
-                  min="1"
-                  defaultValue="1"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                />
-              </div>
-            </div>
-
-            {/* Organizer */}
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Veranstalter Name
-                </label>
-                <input
-                  type="text"
-                  name="organizerName"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  placeholder="Max Mustermann"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Veranstalter E-Mail
-                </label>
-                <input
-                  type="email"
-                  name="organizerEmail"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  placeholder="max@beispiel.de"
-                />
-              </div>
-            </div>
-
-            {/* Status */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Status *
-              </label>
-              <select
-                name="status"
-                required
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              >
-                <option value="DRAFT">Entwurf</option>
-                <option value="PUBLISHED">Veröffentlicht</option>
-              </select>
-            </div>
-
-            {/* Submit */}
-            <div className="flex items-center gap-4">
+            {/* Submit area */}
+            <div className="px-8 py-5 bg-gray-50 border-t border-gray-100 flex items-center gap-3">
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className="px-6 py-2.5 bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white font-semibold rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-sm hover:shadow-md text-sm"
               >
                 {isSubmitting ? 'Wird erstellt...' : 'Veranstaltung erstellen'}
               </button>
               <Link
                 href="/admin/events"
-                className="px-6 py-3 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 font-medium transition-colors"
+                className="px-6 py-2.5 border border-gray-200 rounded-lg text-gray-700 hover:bg-white font-medium transition-all text-sm"
               >
                 Abbrechen
               </Link>
