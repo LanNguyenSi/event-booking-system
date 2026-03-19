@@ -13,6 +13,8 @@ WORKDIR /app
 RUN apt-get update && apt-get install -y openssl && rm -rf /var/lib/apt/lists/*
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
+# Regenerate Prisma Client (COPY . . may overwrite generated client)
+RUN npx prisma generate
 # Need dummy DB URL for build-time schema validation
 ENV DATABASE_URL="postgresql://dummy:dummy@localhost:5432/dummy"
 ENV NEXT_TELEMETRY_DISABLED=1
