@@ -46,14 +46,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    if (event.availableSlots <= 0) {
-      return NextResponse.json(
-        { error: 'Keine Plätze verfügbar' },
-        { status: 400 }
-      );
-    }
-
-    // Check max slots per user
+    // Check max slots per user (both confirmed + waitlisted)
     const existingBookings = event.bookings.length;
     if (existingBookings >= event.maxSlotsPerUser) {
       return NextResponse.json(
@@ -65,37 +58,58 @@ export async function POST(request: NextRequest) {
     // Generate confirmation code (e.g., EVT-A3B7K9)
     const confirmationToken = `EVT-${Math.random().toString(36).substring(2, 8).toUpperCase()}`;
 
-    // Create booking and update available slots
-    const [booking] = await prisma.$transaction([
-      prisma.booking.create({
-        data: {
-          eventId,
-          name,
-          email,
-          metadata,
-          status: 'CONFIRMED',
-          confirmationToken,
-        },
-        include: {
-          event: true,
-        },
-      }),
-      prisma.event.update({
-        where: { id: eventId },
-        data: {
-          availableSlots: {
-            decrement: 1,
+    // Determine if booking is confirmed or waitlisted
+    const isWaitlisted = event.availableSlots <= 0;
+    const bookingStatus = isWaitlisted ? 'WAITLISTED' : 'CONFIRMED';
+
+    // Create booking (and update slots if confirmed)
+    const booking = isWaitlisted
+      ? await prisma.booking.create({
+          data: {
+            eventId,
+            name,
+            email,
+            metadata,
+            status: 'WAITLISTED',
+            confirmationToken,
           },
-        },
-      }),
-    ]);
+          include: {
+            event: true,
+          },
+        })
+      : await prisma.$transaction([
+          prisma.booking.create({
+            data: {
+              eventId,
+              name,
+              email,
+              metadata,
+              status: 'CONFIRMED',
+              confirmationToken,
+            },
+            include: {
+              event: true,
+            },
+          }),
+          prisma.event.update({
+            where: { id: eventId },
+            data: {
+              availableSlots: {
+                decrement: 1,
+              },
+            },
+          }),
+        ]).then(([booking]) => booking);
 
     // Send confirmation email (async, don't block response)
     sendBookingConfirmation(booking).catch(error => {
       console.error('Failed to send confirmation email:', error);
     });
 
-    return NextResponse.json({ booking }, { status: 201 });
+    return NextResponse.json({ 
+      booking,
+      waitlisted: isWaitlisted,
+    }, { status: 201 });
   } catch (error) {
     console.error('Error creating booking:', error);
     return NextResponse.json(

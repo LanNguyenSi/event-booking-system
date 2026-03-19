@@ -236,11 +236,19 @@ export default async function EventDetailPage({
                   </p>
                 </div>
               ) : isFull ? (
-                <div className="text-center py-4">
-                  <p className="text-red-600 font-medium mb-2">Veranstaltung ausgebucht</p>
-                  <p className="text-sm text-gray-600">
-                    Alle Plätze sind bereits gebucht
-                  </p>
+                <div>
+                  <div className="text-center py-4 mb-4">
+                    <p className="text-orange-600 font-medium mb-2">Veranstaltung ausgebucht</p>
+                    <p className="text-sm text-gray-600">
+                      Alle Plätze sind bereits gebucht
+                    </p>
+                  </div>
+                  <div className="border-t border-gray-200 pt-4">
+                    <p className="text-sm text-gray-700 mb-4">
+                      Sie können sich auf die Warteliste setzen. Bei Stornierungen werden Sie automatisch benachrichtigt.
+                    </p>
+                    <BookingForm eventId={event.id} disabled={false} />
+                  </div>
                 </div>
               ) : (
                 <BookingForm eventId={event.id} disabled={isPast} />
