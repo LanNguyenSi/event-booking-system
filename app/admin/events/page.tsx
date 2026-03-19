@@ -7,6 +7,7 @@ export const dynamic = "force-dynamic";
 
 import { prisma } from '@/lib/prisma';
 import Link from 'next/link';
+import DeleteEventButton from '@/components/DeleteEventButton';
 
 export default async function AdminEventsPage() {
   const events = await prisma.event.findMany({
@@ -15,7 +16,11 @@ export default async function AdminEventsPage() {
     },
     include: {
       _count: {
-        select: { bookings: true },
+        select: { 
+          bookings: {
+            where: { status: 'CONFIRMED' }
+          }
+        },
       },
     },
   });
@@ -147,6 +152,12 @@ export default async function AdminEventsPage() {
                           >
                             Buchungen
                           </Link>
+                          <DeleteEventButton 
+                            eventId={event.id} 
+                            eventTitle={event.title}
+                            confirmedBookingsCount={event._count.bookings}
+                            status={event.status}
+                          />
                         </div>
                       </td>
                     </tr>

@@ -83,7 +83,7 @@ export async function PUT(
   }
 }
 
-// DELETE /api/events/[id] - Admin only
+// DELETE /api/events/[id] - Admin only (Soft delete)
 export async function DELETE(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
@@ -102,12 +102,83 @@ export async function DELETE(
       );
     }
 
-    // Delete event (cascades to bookings)
-    await prisma.event.delete({
+    // Check for force parameter
+    const { searchParams } = new URL(request.url);
+    const force = searchParams.get('force') === 'true';
+
+    // Get event with confirmed bookings count
+    const event = await prisma.event.findUnique({
       where: { id },
+      include: {
+        _count: {
+          select: {
+            bookings: {
+              where: { status: 'CONFIRMED' },
+            },
+          },
+        },
+      },
     });
 
-    return NextResponse.json({ success: true });
+    if (!event) {
+      return NextResponse.json(
+        { error: 'Event not found' },
+        { status: 404 }
+      );
+    }
+
+    const confirmedBookingsCount = event._count.bookings;
+
+    // If event has confirmed bookings and force=false, return warning
+    if (confirmedBookingsCount > 0 && !force) {
+      return NextResponse.json(
+        { 
+          error: 'Event has confirmed bookings',
+          confirmedBookingsCount,
+          message: `This event has ${confirmedBookingsCount} confirmed booking(s). Add ?force=true to proceed with cancellation.`
+        },
+        { status: 400 }
+      );
+    }
+
+    // Soft delete: Set status to CANCELLED
+    // If forced, also cancel all confirmed bookings and restore slots
+    if (force && confirmedBookingsCount > 0) {
+      await prisma.$transaction([
+        // Cancel all confirmed bookings
+        prisma.booking.updateMany({
+          where: {
+            eventId: id,
+            status: 'CONFIRMED',
+          },
+          data: {
+            status: 'CANCELLED',
+          },
+        }),
+        // Cancel event
+        prisma.event.update({
+          where: { id },
+          data: {
+            status: 'CANCELLED',
+            availableSlots: event.totalSlots, // Restore all slots
+          },
+        }),
+      ]);
+    } else {
+      // No bookings, just cancel the event
+      await prisma.event.update({
+        where: { id },
+        data: {
+          status: 'CANCELLED',
+        },
+      });
+    }
+
+    return NextResponse.json({ 
+      success: true,
+      message: 'Event cancelled successfully',
+      cancelledBookings: force ? confirmedBookingsCount : 0,
+    });
   } catch (error) {
     console.error('Error deleting event:', error);
     return NextResponse.json(

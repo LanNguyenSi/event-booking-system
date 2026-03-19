@@ -8,6 +8,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import Link from 'next/link';
+import DeleteEventButton from '@/components/DeleteEventButton';
 
 interface EventData {
   id: string;
@@ -33,6 +34,7 @@ export default function EditEventPage() {
   const id = params.id as string;
 
   const [event, setEvent] = useState<EventData | null>(null);
+  const [confirmedBookingsCount, setConfirmedBookingsCount] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
@@ -43,7 +45,14 @@ export default function EditEventPage() {
         const response = await fetch(`/api/events/${id}`);
         if (!response.ok) throw new Error('Event not found');
         const data = await response.json();
-        setEvent(data.event || data);
+        const eventData = data.event || data;
+        setEvent(eventData);
+        
+        // Count confirmed bookings if bookings array exists
+        if (eventData.bookings && Array.isArray(eventData.bookings)) {
+          const confirmed = eventData.bookings.filter((b: any) => b.status === 'CONFIRMED').length;
+          setConfirmedBookingsCount(confirmed);
+        }
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Failed to load event');
       } finally {
@@ -353,20 +362,32 @@ export default function EditEventPage() {
             </div>
 
             {/* Submit */}
-            <div className="flex items-center gap-4">
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                {isSubmitting ? 'Saving...' : 'Save Changes'}
-              </button>
-              <Link
-                href="/admin/events"
-                className="px-6 py-3 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 font-medium transition-colors"
-              >
-                Cancel
-              </Link>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-4">
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {isSubmitting ? 'Saving...' : 'Save Changes'}
+                </button>
+                <Link
+                  href="/admin/events"
+                  className="px-6 py-3 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 font-medium transition-colors"
+                >
+                  Cancel
+                </Link>
+              </div>
+              
+              {/* Delete Button */}
+              <div className="flex items-center gap-2">
+                <DeleteEventButton 
+                  eventId={event.id}
+                  eventTitle={event.title}
+                  confirmedBookingsCount={confirmedBookingsCount}
+                  status={event.status}
+                />
+              </div>
             </div>
           </form>
         </div>
