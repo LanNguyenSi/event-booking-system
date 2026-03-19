@@ -343,3 +343,98 @@ Veranstaltungsbuchung
     console.error('Failed to send event cancellation emails:', error);
   }
 }
+
+/**
+ * Send reminder email to attendee
+ */
+export async function sendEventReminder(
+  booking: Booking & { event: Event }
+): Promise<void> {
+  try {
+    const { name, email } = booking;
+    const { title, startTime, format, location, meetingLink, timezone } = booking.event;
+
+    const eventDate = new Date(startTime);
+    const dateStr = eventDate.toLocaleDateString('de-DE', {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    });
+    const timeStr = eventDate.toLocaleTimeString('de-DE', {
+      hour: '2-digit',
+      minute: '2-digit',
+      timeZone: timezone,
+    });
+
+    const locationText = format === 'REMOTE'
+      ? 'Online-Veranstaltung'
+      : format === 'HYBRID'
+      ? `Hybrid (vor Ort: ${location})`
+      : location || 'Standort wird noch bekannt gegeben';
+
+    const text = `
+Hallo ${name},
+
+dies ist eine freundliche Erinnerung an Ihre bevorstehende Veranstaltung:
+
+📅 Veranstaltung: ${title}
+🕒 Datum: ${dateStr}
+⏰ Uhrzeit: ${timeStr} Uhr (${timezone})
+📍 Ort: ${locationText}
+${meetingLink ? `🔗 Meeting-Link: ${meetingLink}` : ''}
+
+Wir freuen uns auf Ihre Teilnahme!
+
+Mit freundlichen Grüßen
+Ihr Veranstaltungsteam
+    `.trim();
+
+    const html = `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+        <div style="background-color: #2563eb; color: white; padding: 20px; text-align: center;">
+          <h1 style="margin: 0;">⏰ Erinnerung</h1>
+        </div>
+        
+        <div style="padding: 30px; background-color: #f9fafb;">
+          <p style="font-size: 16px; color: #374151;">Hallo <strong>${name}</strong>,</p>
+          
+          <p style="color: #374151;">
+            dies ist eine freundliche Erinnerung an Ihre bevorstehende Veranstaltung:
+          </p>
+          
+          <div style="background-color: white; padding: 20px; border-radius: 8px; margin: 20px 0;">
+            <h2 style="color: #1f2937; margin-top: 0;">${title}</h2>
+            
+            <div style="color: #6b7280; line-height: 1.8;">
+              <p><strong>📅 Datum:</strong> ${dateStr}</p>
+              <p><strong>⏰ Uhrzeit:</strong> ${timeStr} Uhr (${timezone})</p>
+              <p><strong>📍 Ort:</strong> ${locationText}</p>
+              ${meetingLink ? `<p><strong>🔗 Meeting-Link:</strong><br><a href="${meetingLink}" style="color: #2563eb;">${meetingLink}</a></p>` : ''}
+            </div>
+          </div>
+          
+          <p style="color: #374151;">Wir freuen uns auf Ihre Teilnahme!</p>
+          
+          <p style="color: #9ca3af; font-size: 14px; margin-top: 30px;">
+            Mit freundlichen Grüßen<br>
+            Ihr Veranstaltungsteam
+          </p>
+        </div>
+      </div>
+    `;
+
+    await transporter.sendMail({
+      from: FROM_EMAIL,
+      to: email,
+      subject: `⏰ Erinnerung: ${title} morgen um ${timeStr} Uhr`,
+      text,
+      html,
+    });
+
+    console.log(`Reminder email sent to ${email} for event ${title}`);
+  } catch (error) {
+    console.error('Failed to send reminder email:', error);
+    throw error;
+  }
+}
