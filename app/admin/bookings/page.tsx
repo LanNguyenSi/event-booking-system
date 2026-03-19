@@ -2,11 +2,12 @@ export const dynamic = "force-dynamic";
 
 /**
  * Admin Bookings Management Page
- * View all bookings with optional event filter
+ * View all bookings with optional event filter + Cancel functionality
  */
 
 import { prisma } from '@/lib/prisma';
 import Link from 'next/link';
+import CancelBookingButton from '@/components/CancelBookingButton';
 
 export default async function AdminBookingsPage({
   searchParams,
@@ -102,13 +103,16 @@ export default async function AdminBookingsPage({
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Status
                   </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Actions
+                  </th>
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
                 {bookings.length === 0 ? (
                   <tr>
                     <td
-                      colSpan={eventId ? 6 : 7}
+                      colSpan={eventId ? 7 : 8}
                       className="px-6 py-8 text-center text-gray-500"
                     >
                       No bookings yet
@@ -156,6 +160,11 @@ export default async function AdminBookingsPage({
                           >
                             {booking.status}
                           </span>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                          {booking.status === 'CONFIRMED' && (
+                            <CancelBookingButton bookingId={booking.id} />
+                          )}
                         </td>
                       </tr>
                     );
