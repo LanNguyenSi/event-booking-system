@@ -6,6 +6,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { verifyToken, extractToken } from '@/lib/auth';
+import { sendBookingCancellation } from '@/lib/email';
 
 export async function PATCH(
   request: NextRequest,
@@ -87,6 +88,9 @@ export async function PATCH(
       prisma.booking.update({
         where: { id: bookingId },
         data: { status: 'CANCELLED' },
+        include: {
+          event: true,
+        },
       }),
       prisma.event.update({
         where: { id: booking.event.id },
@@ -97,6 +101,11 @@ export async function PATCH(
         },
       }),
     ]);
+
+    // Send cancellation email (async, don't block response)
+    sendBookingCancellation(updatedBooking).catch(error => {
+      console.error('Failed to send cancellation email:', error);
+    });
 
     return NextResponse.json({
       message: 'Booking cancelled successfully',
