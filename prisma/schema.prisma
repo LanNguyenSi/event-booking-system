@@ -100,6 +100,9 @@ model Booking {
   confirmationSent Boolean @default(false)
   confirmationToken String? @unique
   
+  // Reminders
+  reminderSent Boolean @default(false)
+  
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
   
