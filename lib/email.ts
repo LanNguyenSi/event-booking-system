@@ -30,8 +30,9 @@ export async function sendBookingConfirmation(
   booking: Booking & { event: Event }
 ): Promise<void> {
   try {
-    const { name, email, confirmationToken } = booking;
+    const { name, email, confirmationToken, status } = booking;
     const { title, startTime, timezone, location, meetingLink, format } = booking.event;
+    const isWaitlisted = status === 'WAITLISTED';
 
     const eventDate = new Date(startTime).toLocaleDateString('de-DE', {
       weekday: 'long',
@@ -48,6 +49,9 @@ export async function sendBookingConfirmation(
     const lookupUrl = `${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/bookings/lookup`;
     const eventUrl = `${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/events/${booking.event.id}`;
 
+    const headerColor = isWaitlisted ? '#f59e0b' : '#2563eb'; // Orange for waitlist, blue for confirmed
+    const headerTitle = isWaitlisted ? '⏳ Auf Warteliste' : '✅ Buchung bestätigt!';
+
     const html = `
 <!DOCTYPE html>
 <html>
@@ -57,7 +61,7 @@ export async function sendBookingConfirmation(
   <style>
     body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
     .container { max-width: 600px; margin: 0 auto; padding: 20px; }
-    .header { background: #2563eb; color: white; padding: 30px; text-align: center; border-radius: 8px 8px 0 0; }
+    .header { background: ${headerColor}; color: white; padding: 30px; text-align: center; border-radius: 8px 8px 0 0; }
     .content { background: #ffffff; padding: 30px; border: 1px solid #e5e7eb; }
     .code { background: #f3f4f6; padding: 15px; text-align: center; font-size: 24px; font-weight: bold; letter-spacing: 3px; border-radius: 8px; margin: 20px 0; font-family: monospace; }
     .details { background: #f9fafb; padding: 20px; border-radius: 8px; margin: 20px 0; }
@@ -69,13 +73,17 @@ export async function sendBookingConfirmation(
 <body>
   <div class="container">
     <div class="header">
-      <h1>✅ Buchung bestätigt!</h1>
+      <h1>${headerTitle}</h1>
     </div>
     
     <div class="content">
       <p>Hallo ${name},</p>
       
-      <p>Ihre Buchung für <strong>${title}</strong> wurde erfolgreich bestätigt!</p>
+      ${isWaitlisted 
+        ? `<p>Sie wurden auf die Warteliste für <strong>${title}</strong> gesetzt.</p>
+           <p>Sobald ein Platz frei wird, werden Sie automatisch befördert und erhalten eine Bestätigung per E-Mail.</p>`
+        : `<p>Ihre Buchung für <strong>${title}</strong> wurde erfolgreich bestätigt!</p>`
+      }
       
       <div class="code">
         ${confirmationToken}
@@ -144,7 +152,7 @@ Diese E-Mail wurde automatisch generiert.
     await transporter.sendMail({
       from: FROM_EMAIL,
       to: email,
-      subject: `✅ Buchung bestätigt: ${title}`,
+      subject: isWaitlisted ? `⏳ Warteliste: ${title}` : `✅ Buchung bestätigt: ${title}`,
       text,
       html,
     });

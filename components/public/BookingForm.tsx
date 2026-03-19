@@ -23,6 +23,7 @@ export function BookingForm({ eventId, disabled = false }: BookingFormProps) {
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState('');
   const [confirmationCode, setConfirmationCode] = useState('');
+  const [isWaitlisted, setIsWaitlisted] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -54,6 +55,7 @@ export function BookingForm({ eventId, disabled = false }: BookingFormProps) {
 
       setSuccess(true);
       setConfirmationCode(data.booking?.confirmationToken || '');
+      setIsWaitlisted(data.waitlisted || false);
       setFormData({ name: '', email: '', company: '', role: '' });
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Something went wrong');
@@ -81,26 +83,32 @@ export function BookingForm({ eventId, disabled = false }: BookingFormProps) {
           </svg>
         </div>
         <h3 className="text-lg font-semibold text-gray-900 mb-2">
-          Buchung bestätigt!
+          {isWaitlisted ? 'Auf Warteliste!' : 'Buchung bestätigt!'}
         </h3>
         <p className="text-gray-600 text-sm mb-4">
-          Sie erhalten in Kürze eine Bestätigungs-E-Mail.
+          {isWaitlisted 
+            ? 'Die Veranstaltung ist ausgebucht. Sie wurden auf die Warteliste gesetzt und werden automatisch benachrichtigt, sobald ein Platz frei wird.'
+            : 'Sie erhalten in Kürze eine Bestätigungs-E-Mail.'
+          }
         </p>
         
         {confirmationCode && (
-          <div className="mb-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
-            <p className="text-sm text-gray-700 mb-2">Ihr Bestätigungscode:</p>
-            <p className="text-2xl font-mono font-bold text-blue-900 tracking-wider mb-3">
+          <div className={`mb-6 p-4 rounded-lg border ${isWaitlisted ? 'bg-orange-50 border-orange-200' : 'bg-blue-50 border-blue-200'}`}>
+            <p className="text-sm text-gray-700 mb-2">{isWaitlisted ? 'Ihr Wartelisten-Code:' : 'Ihr Bestätigungscode:'}</p>
+            <p className={`text-2xl font-mono font-bold tracking-wider mb-3 ${isWaitlisted ? 'text-orange-900' : 'text-blue-900'}`}>
               {confirmationCode}
             </p>
             <p className="text-xs text-gray-600 mb-3">
-              Bitte bewahren Sie diesen Code auf. Sie können damit Ihre Buchung jederzeit einsehen oder stornieren.
+              {isWaitlisted
+                ? 'Bitte bewahren Sie diesen Code auf. Sie werden automatisch informiert, wenn ein Platz frei wird.'
+                : 'Bitte bewahren Sie diesen Code auf. Sie können damit Ihre Buchung jederzeit einsehen oder stornieren.'
+              }
             </p>
             <a
               href="/bookings/lookup"
-              className="inline-block text-blue-600 hover:text-blue-800 text-sm font-medium"
+              className={`inline-block hover:underline text-sm font-medium ${isWaitlisted ? 'text-orange-600' : 'text-blue-600'}`}
             >
-              Buchung verwalten →
+              {isWaitlisted ? 'Wartelisten-Status prüfen' : 'Buchung verwalten'} →
             </a>
           </div>
         )}
