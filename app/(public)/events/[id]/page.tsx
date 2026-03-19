@@ -10,6 +10,46 @@ import { prisma } from '@/lib/prisma';
 import { BookingForm } from '@/components/public/BookingForm';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import type { Metadata } from 'next';
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}): Promise<Metadata> {
+  const { id } = await params;
+  
+  const event = await prisma.event.findUnique({
+    where: { id },
+  });
+
+  if (!event || event.status !== 'PUBLISHED') {
+    return {
+      title: 'Veranstaltung nicht gefunden',
+    };
+  }
+
+  const shortDescription = event.description.length > 160
+    ? event.description.substring(0, 157) + '...'
+    : event.description;
+
+  return {
+    title: `${event.title} | Veranstaltungsbuchung`,
+    description: shortDescription,
+    openGraph: {
+      title: event.title,
+      description: shortDescription,
+      type: 'website',
+      locale: 'de_DE',
+      siteName: 'Veranstaltungsbuchung',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: event.title,
+      description: shortDescription,
+    },
+  };
+}
 
 export default async function EventDetailPage({
   params,
