@@ -22,7 +22,7 @@ export default function CancelBookingButton({ bookingId }: CancelBookingButtonPr
 
     try {
       // Get admin token from localStorage
-      const token = localStorage.getItem('adminToken');
+      const token = localStorage.getItem('admin_token');
       if (!token) {
         alert('Not authenticated. Please log in again.');
         router.push('/admin/login');
