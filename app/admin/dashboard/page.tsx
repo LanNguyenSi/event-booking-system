@@ -53,7 +53,7 @@ export default async function AdminDashboardPage() {
                 href="/events"
                 className="text-blue-600 hover:text-blue-800 text-sm"
               >
-                View Public Site
+                Öffentliche Seite ansehen
               </Link>
               <LogoutButton />
             </div>
@@ -84,7 +84,7 @@ export default async function AdminDashboardPage() {
               </div>
               <div className="ml-4">
                 <p className="text-sm font-medium text-gray-500">
-                  Total Events
+                  Veranstaltungen gesamt
                 </p>
                 <p className="text-2xl font-bold text-gray-900">
                   {totalEvents}
@@ -112,7 +112,7 @@ export default async function AdminDashboardPage() {
                 </svg>
               </div>
               <div className="ml-4">
-                <p className="text-sm font-medium text-gray-500">Upcoming</p>
+                <p className="text-sm font-medium text-gray-500">Kommende</p>
                 <p className="text-2xl font-bold text-gray-900">
                   {upcomingEvents}
                 </p>
@@ -140,7 +140,7 @@ export default async function AdminDashboardPage() {
               </div>
               <div className="ml-4">
                 <p className="text-sm font-medium text-gray-500">
-                  Total Bookings
+                  Buchungen gesamt
                 </p>
                 <p className="text-2xl font-bold text-gray-900">
                   {totalBookings}
@@ -153,26 +153,26 @@ export default async function AdminDashboardPage() {
         {/* Quick Actions */}
         <div className="bg-white rounded-lg shadow p-6 mb-8">
           <h2 className="text-lg font-semibold text-gray-900 mb-4">
-            Quick Actions
+            Schnellzugriff
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <Link
               href="/admin/events/new"
               className="flex items-center justify-center px-4 py-3 border border-transparent rounded-lg text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 transition-colors"
             >
-              + Create New Event
+              + Neue Veranstaltung erstellen
             </Link>
             <Link
               href="/admin/events"
               className="flex items-center justify-center px-4 py-3 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
             >
-              Manage Events
+              Veranstaltungen verwalten
             </Link>
             <Link
               href="/admin/bookings"
               className="flex items-center justify-center px-4 py-3 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
             >
-              View Bookings
+              Buchungen ansehen
             </Link>
           </div>
         </div>
@@ -181,7 +181,7 @@ export default async function AdminDashboardPage() {
         <div className="bg-white rounded-lg shadow">
           <div className="px-6 py-4 border-b border-gray-200">
             <h2 className="text-lg font-semibold text-gray-900">
-              Recent Bookings
+              Letzte Buchungen
             </h2>
           </div>
           <div className="overflow-x-auto">
@@ -192,13 +192,13 @@ export default async function AdminDashboardPage() {
                     Name
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Email
+                    E-Mail
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Event
+                    Veranstaltung
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Date
+                    Datum
                   </th>
                 </tr>
               </thead>
@@ -209,7 +209,7 @@ export default async function AdminDashboardPage() {
                       colSpan={4}
                       className="px-6 py-8 text-center text-gray-500"
                     >
-                      No bookings yet
+                      Noch keine Buchungen
                     </td>
                   </tr>
                 ) : (
@@ -225,7 +225,7 @@ export default async function AdminDashboardPage() {
                         {booking.event.title}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        {new Date(booking.createdAt).toLocaleDateString()}
+                        {new Date(booking.createdAt).toLocaleDateString('de-DE')}
                       </td>
                     </tr>
                   ))
