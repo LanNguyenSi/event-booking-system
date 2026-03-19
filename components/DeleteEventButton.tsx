@@ -37,7 +37,7 @@ export default function DeleteEventButton({
       // Get admin token from localStorage
       const token = localStorage.getItem('admin_token');
       if (!token) {
-        alert('Not authenticated. Please log in again.');
+        alert('Nicht authentifiziert. Bitte erneut anmelden.');
         router.push('/admin/login');
         return;
       }
@@ -57,7 +57,7 @@ export default function DeleteEventButton({
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.error || 'Failed to delete event');
+        throw new Error(data.error || 'Veranstaltung konnte nicht gelöscht werden');
       }
 
       // Success - refresh the page
@@ -65,7 +65,7 @@ export default function DeleteEventButton({
       setShowConfirm(false);
     } catch (error) {
       console.error('Error deleting event:', error);
-      alert(error instanceof Error ? error.message : 'Failed to delete event');
+      alert(error instanceof Error ? error.message : 'Veranstaltung konnte nicht gelöscht werden');
     } finally {
       setIsLoading(false);
     }
@@ -85,10 +85,10 @@ export default function DeleteEventButton({
   return (
     <div className="flex flex-col gap-2">
       <div className="text-sm text-gray-600">
-        Delete &quot;{eventTitle}&quot;?
+        Löschen: Delete &quot;quot;{eventTitle}&quot;?
         {confirmedBookingsCount > 0 && (
           <div className="text-xs text-orange-600 mt-1">
-            ⚠️ {confirmedBookingsCount} confirmed booking(s) will be cancelled
+            ⚠️ {confirmedBookingsCount} bestätigte Buchung(en) werden storniert
           </div>
         )}
       </div>
@@ -98,7 +98,7 @@ export default function DeleteEventButton({
           disabled={isLoading}
           className="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700 disabled:opacity-50 text-sm"
         >
-          {isLoading ? 'Deleting...' : 'Yes, Delete'}
+          {isLoading ? 'Lösche...' : 'Ja, löschen'}
         </button>
         <button
           onClick={() => setShowConfirm(false)}
