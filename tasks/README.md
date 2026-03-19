@@ -16,10 +16,11 @@ Work packages for post-MVP development. Each file is a self-contained task.
 ### P0 — Production Critical
 | # | Task | Estimate | Status |
 |---|------|----------|--------|
-| 001 | [Booking Cancel API](001-booking-cancel-api.md) | 2h | [ ] |
+| 001 | [Booking Cancel API](001-booking-cancel-api.md) | 2h | [x] |
 | 002 | [Event Delete (Soft Delete)](002-event-soft-delete.md) | 1.5h | [ ] |
 | 003 | [Email Notifications](003-email-notifications.md) | 4h | [ ] |
 | 004 | [Confirmation Code Lookup](004-confirmation-lookup.md) | 2h | [ ] |
+| 013 | [German Localization](013-localization-de.md) | 3h | [ ] |
 
 ### P1 — User Experience
 | # | Task | Estimate | Status |
