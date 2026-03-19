@@ -79,16 +79,16 @@ export function BookingForm({ eventId, disabled = false }: BookingFormProps) {
           </svg>
         </div>
         <h3 className="text-lg font-semibold text-gray-900 mb-2">
-          Booking Confirmed!
+          Buchung bestätigt!
         </h3>
         <p className="text-gray-600 text-sm mb-4">
-          You'll receive a confirmation email shortly.
+          Sie erhalten in Kürze eine Bestätigungs-E-Mail.
         </p>
         <button
           onClick={() => setSuccess(false)}
           className="text-blue-600 hover:text-blue-800 text-sm font-medium"
         >
-          Book another spot
+          Weiteren Platz buchen
         </button>
       </div>
     );
@@ -108,7 +108,7 @@ export function BookingForm({ eventId, disabled = false }: BookingFormProps) {
           htmlFor="name"
           className="block text-sm font-medium text-gray-700 mb-1"
         >
-          Full Name *
+          Vollständiger Name *
         </label>
         <input
           type="text"
@@ -146,7 +146,7 @@ export function BookingForm({ eventId, disabled = false }: BookingFormProps) {
           htmlFor="company"
           className="block text-sm font-medium text-gray-700 mb-1"
         >
-          Company/Organization
+          Firma/Organisation
         </label>
         <input
           type="text"
@@ -166,7 +166,7 @@ export function BookingForm({ eventId, disabled = false }: BookingFormProps) {
           htmlFor="role"
           className="block text-sm font-medium text-gray-700 mb-1"
         >
-          Job Title
+          Position/Rolle
         </label>
         <input
           type="text"
@@ -184,11 +184,11 @@ export function BookingForm({ eventId, disabled = false }: BookingFormProps) {
         disabled={isSubmitting || disabled}
         className="w-full py-3 px-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
       >
-        {isSubmitting ? 'Booking...' : 'Confirm Booking'}
+        {isSubmitting ? 'Wird gebucht...' : 'Buchung bestätigen'}
       </button>
 
       <p className="text-xs text-gray-500 text-center">
-        By booking, you agree to receive event updates via email
+        Mit der Buchung stimmen Sie zu, Updates per E-Mail zu erhalten
       </p>
     </form>
   );

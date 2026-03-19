@@ -42,7 +42,7 @@ export default async function EventDetailPage({
             href="/events"
             className="text-blue-600 hover:text-blue-800 text-sm font-medium"
           >
-            ← Back to Events
+            ← Zurück zu Veranstaltungen
           </a>
         </div>
       </header>
@@ -83,7 +83,7 @@ export default async function EventDetailPage({
               </svg>
               <div>
                 <p className="font-medium">
-                  {startDate.toLocaleDateString('en-US', {
+                  {startDate.toLocaleDateString('de-DE', {
                     weekday: 'long',
                     year: 'numeric',
                     month: 'long',
@@ -91,10 +91,10 @@ export default async function EventDetailPage({
                   })}
                 </p>
                 <p className="text-sm">
-                  {startDate.toLocaleTimeString('en-US', {
+                  {startDate.toLocaleTimeString('de-DE', {
                     hour: '2-digit',
                     minute: '2-digit',
-                  })}{' '}
+                  })} Uhr{' '}
                   {event.timezone}
                 </p>
               </div>
@@ -143,7 +143,7 @@ export default async function EventDetailPage({
                   />
                 </svg>
                 <div>
-                  <p className="font-medium">Organized by</p>
+                  <p className="font-medium">Veranstaltet von</p>
                   <p>{event.organizerName}</p>
                 </div>
               </div>
@@ -151,7 +151,7 @@ export default async function EventDetailPage({
 
             {/* Description */}
             <div className="mt-8 pt-8 border-t border-gray-200">
-              <h2 className="text-xl font-semibold mb-4">About this event</h2>
+              <h2 className="text-xl font-semibold mb-4">Über diese Veranstaltung</h2>
               <div className="prose max-w-none text-gray-700 whitespace-pre-wrap">
                 {event.description}
               </div>
@@ -161,12 +161,12 @@ export default async function EventDetailPage({
           {/* Booking Form (Right - 1/3) */}
           <div className="lg:col-span-1">
             <div className="bg-white rounded-lg shadow-md p-6 sticky top-4">
-              <h2 className="text-xl font-semibold mb-4">Book Your Spot</h2>
+              <h2 className="text-xl font-semibold mb-4">Platz buchen</h2>
 
               {/* Availability Status */}
               <div className="mb-6 p-4 rounded-lg bg-gray-50">
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-sm text-gray-600">Available Slots</span>
+                  <span className="text-sm text-gray-600">Verfügbare Plätze</span>
                   <span className="text-lg font-bold text-gray-900">
                     {event.availableSlots} / {event.totalSlots}
                   </span>
@@ -188,14 +188,14 @@ export default async function EventDetailPage({
               {isPast ? (
                 <div className="text-center py-4">
                   <p className="text-red-600 font-medium">
-                    This event has already passed
+                    Diese Veranstaltung ist bereits vorbei
                   </p>
                 </div>
               ) : isFull ? (
                 <div className="text-center py-4">
-                  <p className="text-red-600 font-medium mb-2">Event is full</p>
+                  <p className="text-red-600 font-medium mb-2">Veranstaltung ausgebucht</p>
                   <p className="text-sm text-gray-600">
-                    All slots have been booked
+                    Alle Plätze sind bereits gebucht
                   </p>
                 </div>
               ) : (

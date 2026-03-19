@@ -32,10 +32,10 @@ export default async function EventsPage() {
       <header className="bg-white shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <h1 className="text-3xl font-bold text-gray-900">
-            Upcoming Events
+            Kommende Veranstaltungen
           </h1>
           <p className="mt-2 text-gray-600">
-            Browse and book your spot for workshops, talks, and meetups
+            Entdecke und buche deinen Platz für Workshops, Vorträge und Meetups
           </p>
         </div>
       </header>
@@ -58,10 +58,10 @@ export default async function EventsPage() {
               />
             </svg>
             <h3 className="mt-2 text-lg font-medium text-gray-900">
-              No upcoming events
+              Keine kommenden Veranstaltungen
             </h3>
             <p className="mt-1 text-gray-500">
-              Check back later for new events!
+              Schauen Sie später noch einmal vorbei!
             </p>
           </div>
         ) : (
@@ -77,7 +77,7 @@ export default async function EventsPage() {
       <footer className="bg-white border-t border-gray-200 mt-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <p className="text-center text-gray-500 text-sm">
-            Event Booking System - Book your spot today!
+            Veranstaltungsbuchung - Sichere dir jetzt deinen Platz!
           </p>
         </div>
       </footer>

@@ -53,8 +53,8 @@ export default function AdminLoginPage() {
     <div className="min-h-screen bg-gray-100 flex items-center justify-center px-4">
       <div className="max-w-md w-full bg-white rounded-lg shadow-md p-8">
         <div className="text-center mb-8">
-          <h1 className="text-2xl font-bold text-gray-900">Admin Login</h1>
-          <p className="text-gray-600 mt-2">Event Booking System</p>
+          <h1 className="text-2xl font-bold text-gray-900">Admin-Anmeldung</h1>
+          <p className="text-gray-600 mt-2">Veranstaltungsbuchung</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
@@ -70,7 +70,7 @@ export default function AdminLoginPage() {
               htmlFor="username"
               className="block text-sm font-medium text-gray-700 mb-2"
             >
-              Username
+              Benutzername
             </label>
             <input
               type="text"
@@ -91,7 +91,7 @@ export default function AdminLoginPage() {
               htmlFor="password"
               className="block text-sm font-medium text-gray-700 mb-2"
             >
-              Password
+              Passwort
             </label>
             <input
               type="password"
@@ -112,7 +112,7 @@ export default function AdminLoginPage() {
             disabled={isSubmitting}
             className="w-full py-3 px-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {isSubmitting ? 'Logging in...' : 'Login'}
+            {isSubmitting ? 'Wird angemeldet...' : 'Anmelden'}
           </button>
         </form>
 
@@ -121,7 +121,7 @@ export default function AdminLoginPage() {
             href="/events"
             className="text-sm text-blue-600 hover:text-blue-800"
           >
-            ← Back to Events
+            ← Zurück zu Veranstaltungen
           </a>
         </div>
       </div>
