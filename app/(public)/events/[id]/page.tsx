@@ -8,6 +8,8 @@ export const dynamic = "force-dynamic";
 import { notFound } from 'next/navigation';
 import { prisma } from '@/lib/prisma';
 import { BookingForm } from '@/components/public/BookingForm';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
 export default async function EventDetailPage({
   params,
@@ -152,8 +154,10 @@ export default async function EventDetailPage({
             {/* Description */}
             <div className="mt-8 pt-8 border-t border-gray-200">
               <h2 className="text-xl font-semibold mb-4">Über diese Veranstaltung</h2>
-              <div className="prose max-w-none text-gray-700 whitespace-pre-wrap">
-                {event.description}
+              <div className="prose prose-slate max-w-none">
+                <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                  {event.description}
+                </ReactMarkdown>
               </div>
             </div>
           </div>
