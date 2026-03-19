@@ -31,7 +31,7 @@ export async function GET(
 
     if (!event) {
       return NextResponse.json(
-        { error: 'Event not found' },
+        { error: 'Veranstaltung nicht gefunden' },
         { status: 404 }
       );
     }
@@ -60,7 +60,7 @@ export async function PUT(
 
     if (!token || !verifyToken(token)) {
       return NextResponse.json(
-        { error: 'Unauthorized' },
+        { error: 'Nicht berechtigt' },
         { status: 401 }
       );
     }
@@ -97,7 +97,7 @@ export async function DELETE(
 
     if (!token || !verifyToken(token)) {
       return NextResponse.json(
-        { error: 'Unauthorized' },
+        { error: 'Nicht berechtigt' },
         { status: 401 }
       );
     }

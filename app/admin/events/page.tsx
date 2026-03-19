@@ -36,17 +36,17 @@ export default async function AdminEventsPage() {
                 href="/admin/dashboard"
                 className="text-blue-600 hover:text-blue-800 text-sm mb-2 inline-block"
               >
-                ← Back to Dashboard
+                ← Zurück zum Dashboard
               </Link>
               <h1 className="text-2xl font-bold text-gray-900">
-                Manage Events
+                Veranstaltungen verwalten
               </h1>
             </div>
             <Link
               href="/admin/events/new"
               className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors"
             >
-              + Create Event
+              + Veranstaltung erstellen
             </Link>
           </div>
         </div>
@@ -59,22 +59,22 @@ export default async function AdminEventsPage() {
               <thead className="bg-gray-50">
                 <tr>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Event
+                    Veranstaltung
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Type
+                    Typ
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Date
+                    Datum
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Status
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Bookings
+                    Buchungen
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Actions
+                    Aktionen
                   </th>
                 </tr>
               </thead>
@@ -85,12 +85,12 @@ export default async function AdminEventsPage() {
                       colSpan={6}
                       className="px-6 py-8 text-center text-gray-500"
                     >
-                      No events yet.{' '}
+                      Noch keine Veranstaltungen.{' '}
                       <Link
                         href="/admin/events/new"
                         className="text-blue-600 hover:text-blue-800"
                       >
-                        Create your first event
+                        Erste Veranstaltung erstellen
                       </Link>
                     </td>
                   </tr>
@@ -111,7 +111,7 @@ export default async function AdminEventsPage() {
                         </span>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        {new Date(event.startTime).toLocaleDateString()}
+                        {new Date(event.startTime).toLocaleDateString('de-DE')}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <span
@@ -123,7 +123,9 @@ export default async function AdminEventsPage() {
                               : 'bg-red-100 text-red-800'
                           }`}
                         >
-                          {event.status}
+                          {event.status === 'PUBLISHED' ? 'Veröffentlicht' : 
+                           event.status === 'DRAFT' ? 'Entwurf' : 
+                           'Abgesagt'}
                         </span>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
@@ -136,19 +138,19 @@ export default async function AdminEventsPage() {
                             target="_blank"
                             className="text-blue-600 hover:text-blue-800"
                           >
-                            View
+                            Ansehen
                           </Link>
                           <Link
                             href={`/admin/events/${event.id}/edit`}
                             className="text-indigo-600 hover:text-indigo-800"
                           >
-                            Edit
+                            Bearbeiten
                           </Link>
                           <Link
                             href={`/admin/bookings?eventId=${event.id}`}
                             className="text-green-600 hover:text-green-800"
                           >
-                            Bookings
+                            Buchungen
                           </Link>
                           <DeleteEventButton 
                             eventId={event.id} 

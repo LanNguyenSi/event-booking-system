@@ -19,15 +19,15 @@ export function EventCard({ event }: EventCardProps) {
   const availableSlots = event.availableSlots;
   const isFull = availableSlots === 0;
 
-  // Format date
+  // Format date (German)
   const startDate = new Date(event.startTime);
-  const dateStr = startDate.toLocaleDateString('en-US', {
+  const dateStr = startDate.toLocaleDateString('de-DE', {
     weekday: 'long',
     year: 'numeric',
     month: 'long',
     day: 'numeric',
   });
-  const timeStr = startDate.toLocaleTimeString('en-US', {
+  const timeStr = startDate.toLocaleTimeString('de-DE', {
     hour: '2-digit',
     minute: '2-digit',
   });
@@ -73,7 +73,7 @@ export function EventCard({ event }: EventCardProps) {
           />
         </svg>
         <span>
-          {dateStr} at {timeStr}
+          {dateStr} um {timeStr} Uhr
         </span>
       </div>
 
@@ -94,17 +94,17 @@ export function EventCard({ event }: EventCardProps) {
             />
           </svg>
           <span className="text-sm text-gray-600">
-            {bookingsCount} / {event.totalSlots} booked
+            {bookingsCount} / {event.totalSlots} gebucht
           </span>
         </div>
 
         {isFull ? (
           <span className="px-3 py-1 text-xs font-semibold rounded bg-red-100 text-red-800">
-            FULL
+            AUSGEBUCHT
           </span>
         ) : (
           <span className="px-3 py-1 text-xs font-semibold rounded bg-green-100 text-green-800">
-            {availableSlots} slots left
+            {availableSlots} Plätze frei
           </span>
         )}
       </div>

@@ -61,27 +61,27 @@ export default function CancelBookingButton({ bookingId }: CancelBookingButtonPr
         onClick={() => setShowConfirm(true)}
         className="text-red-600 hover:text-red-800 font-medium"
       >
-        Cancel
+        Stornieren
       </button>
     );
   }
 
   return (
     <div className="flex items-center gap-2">
-      <span className="text-sm text-gray-600">Are you sure?</span>
+      <span className="text-sm text-gray-600">Bist du sicher?</span>
       <button
         onClick={handleCancel}
         disabled={isLoading}
         className="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700 disabled:opacity-50 text-sm"
       >
-        {isLoading ? 'Cancelling...' : 'Yes'}
+        {isLoading ? 'Wird storniert...' : 'Ja'}
       </button>
       <button
         onClick={() => setShowConfirm(false)}
         disabled={isLoading}
         className="px-3 py-1 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 disabled:opacity-50 text-sm"
       >
-        No
+        Nein
       </button>
     </div>
   );
