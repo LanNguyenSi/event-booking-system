@@ -8,6 +8,7 @@ export const dynamic = "force-dynamic";
 import { prisma } from '@/lib/prisma';
 import Link from 'next/link';
 import CancelBookingButton from '@/components/CancelBookingButton';
+import ExportCSVButton from '@/components/ExportCSVButton';
 
 export default async function AdminBookingsPage({
   searchParams,
@@ -67,8 +68,11 @@ export default async function AdminBookingsPage({
                 </Link>
               )}
             </div>
-            <div className="text-sm text-gray-600">
-              Gesamt: {Buchungen.length} Buchungen
+            <div className="flex items-center gap-4">
+              <div className="text-sm text-gray-600">
+                Gesamt: {Buchungen.length} Buchungen
+              </div>
+              <ExportCSVButton eventId={eventId} />
             </div>
           </div>
         </div>
