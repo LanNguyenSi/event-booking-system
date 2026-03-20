@@ -37,12 +37,12 @@ export async function GET(request: NextRequest) {
       date: Date;
       count: bigint;
     }>>`
-      SELECT 
-        DATE(created_at) as date,
+      SELECT
+        DATE("createdAt") as date,
         COUNT(*) as count
       FROM bookings
-      WHERE created_at >= ${startDate}
-      GROUP BY DATE(created_at)
+      WHERE "createdAt" >= ${startDate}
+      GROUP BY DATE("createdAt")
       ORDER BY date ASC
     `;
 

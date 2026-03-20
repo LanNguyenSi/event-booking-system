@@ -15,16 +15,16 @@ interface CancelBookingButtonProps {
 export default function CancelBookingButton({ bookingId }: CancelBookingButtonProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const router = useRouter();
 
   const handleCancel = async () => {
     setIsLoading(true);
+    setError(null);
 
     try {
-      // Get admin token from localStorage
       const token = localStorage.getItem('admin_token');
       if (!token) {
-        alert('Not authenticated. Please log in again.');
         router.push('/admin/login');
         return;
       }
@@ -41,15 +41,14 @@ export default function CancelBookingButton({ bookingId }: CancelBookingButtonPr
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.error || 'Failed to cancel booking');
+        throw new Error(data.error || 'Stornierung fehlgeschlagen');
       }
 
-      // Success - refresh the page to show updated status
       router.refresh();
       setShowConfirm(false);
     } catch (error) {
       console.error('Error cancelling booking:', error);
-      alert(error instanceof Error ? error.message : 'Failed to cancel booking');
+      setError(error instanceof Error ? error.message : 'Stornierung fehlgeschlagen');
     } finally {
       setIsLoading(false);
     }
@@ -67,22 +66,25 @@ export default function CancelBookingButton({ bookingId }: CancelBookingButtonPr
   }
 
   return (
-    <div className="flex items-center gap-2">
-      <span className="text-sm text-gray-600">Bist du sicher?</span>
-      <button
-        onClick={handleCancel}
-        disabled={isLoading}
-        className="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700 disabled:opacity-50 text-sm"
-      >
-        {isLoading ? 'Wird storniert...' : 'Ja'}
-      </button>
-      <button
-        onClick={() => setShowConfirm(false)}
-        disabled={isLoading}
-        className="px-3 py-1 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 disabled:opacity-50 text-sm"
-      >
-        Nein
-      </button>
+    <div className="flex flex-col gap-1.5">
+      {error && <p className="text-xs text-red-600">{error}</p>}
+      <div className="flex items-center gap-2">
+        <span className="text-sm text-gray-600">Bist du sicher?</span>
+        <button
+          onClick={handleCancel}
+          disabled={isLoading}
+          className="px-3 py-1 bg-red-600 text-white rounded-lg hover:bg-red-700 disabled:opacity-50 text-sm"
+        >
+          {isLoading ? 'Wird storniert...' : 'Ja'}
+        </button>
+        <button
+          onClick={() => { setShowConfirm(false); setError(null); }}
+          disabled={isLoading}
+          className="px-3 py-1 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 disabled:opacity-50 text-sm"
+        >
+          Nein
+        </button>
+      </div>
     </div>
   );
 }

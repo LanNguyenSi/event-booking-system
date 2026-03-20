@@ -2,7 +2,7 @@ export const dynamic = "force-dynamic";
 
 /**
  * Admin Bookings Management Page
- * Alle Buchungen ansehen with optional event filter + Cancel functionality
+ * Alle Buchungen ansehen mit optionalem Event-Filter und Stornierungsfunktion
  */
 
 import { prisma } from '@/lib/prisma';

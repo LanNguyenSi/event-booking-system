@@ -50,7 +50,7 @@ export function BookingForm({ eventId, disabled = false }: BookingFormProps) {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.error || 'Failed to create booking');
+        throw new Error(data.error || 'Buchung konnte nicht erstellt werden');
       }
 
       setSuccess(true);
@@ -58,7 +58,7 @@ export function BookingForm({ eventId, disabled = false }: BookingFormProps) {
       setIsWaitlisted(data.waitlisted || false);
       setFormData({ name: '', email: '', company: '', role: '' });
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Something went wrong');
+      setError(err instanceof Error ? err.message : 'Etwas ist schiefgelaufen');
     } finally {
       setIsSubmitting(false);
     }

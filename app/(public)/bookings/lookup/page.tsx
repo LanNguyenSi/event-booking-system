@@ -50,6 +50,9 @@ export default function BookingLookupPage() {
   const [error, setError] = useState('');
   const [booking, setBooking] = useState<Booking | null>(null);
   const [isCancelling, setIsCancelling] = useState(false);
+  const [showCancelConfirm, setShowCancelConfirm] = useState(false);
+  const [cancelSuccess, setCancelSuccess] = useState(false);
+  const [cancelError, setCancelError] = useState('');
 
   const handleLookup = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -77,9 +80,9 @@ export default function BookingLookupPage() {
 
   const handleCancel = async () => {
     if (!booking) return;
-    if (!confirm('Möchten Sie diese Buchung wirklich stornieren?')) return;
 
     setIsCancelling(true);
+    setCancelError('');
 
     try {
       const response = await fetch(`/api/bookings/${booking.id}`, {
@@ -96,11 +99,11 @@ export default function BookingLookupPage() {
         throw new Error(data.error || 'Stornierung fehlgeschlagen');
       }
 
-      // Update local booking status
       setBooking({ ...booking, status: 'CANCELLED' });
-      alert('Buchung erfolgreich storniert!');
+      setShowCancelConfirm(false);
+      setCancelSuccess(true);
     } catch (err) {
-      alert(err instanceof Error ? err.message : 'Stornierung fehlgeschlagen');
+      setCancelError(err instanceof Error ? err.message : 'Stornierung fehlgeschlagen');
     } finally {
       setIsCancelling(false);
     }
@@ -120,7 +123,7 @@ export default function BookingLookupPage() {
             </svg>
             Zurück zu Veranstaltungen
           </Link>
-          <h1 className="text-3xl font-extrabold text-gray-900 tracking-tight">
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight">
             Buchung suchen
           </h1>
           <p className="mt-2 text-gray-500">
@@ -132,7 +135,7 @@ export default function BookingLookupPage() {
       <main className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {!booking ? (
           // Lookup Form
-          <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-8">
+          <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 sm:p-8">
             <form onSubmit={handleLookup} className="space-y-6">
               {error && (
                 <div className="p-4 rounded-xl bg-red-50 border border-red-200">
@@ -195,8 +198,15 @@ export default function BookingLookupPage() {
         ) : (
           // Booking Details
           <div className="space-y-6">
+            {/* Cancel Success Message */}
+            {cancelSuccess && (
+              <div className="p-4 rounded-xl bg-emerald-50 border border-emerald-200">
+                <p className="text-sm text-emerald-700 font-medium">Buchung erfolgreich storniert.</p>
+              </div>
+            )}
+
             {/* Status Badge */}
-            <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-7">
+            <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-5 sm:p-7">
               <div className="flex items-center justify-between mb-5">
                 <h2 className="text-xl font-bold text-gray-900">
                   Buchungsdetails
@@ -255,20 +265,50 @@ export default function BookingLookupPage() {
                 </div>
               </div>
 
-              {/* Cancel Button */}
-              {booking.status === 'CONFIRMED' && (
-                <button
-                  onClick={handleCancel}
-                  disabled={isCancelling}
-                  className="w-full py-3 px-4 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-sm"
-                >
-                  {isCancelling ? 'Wird storniert...' : 'Buchung stornieren'}
-                </button>
+              {/* Cancel Error */}
+              {cancelError && (
+                <div className="mb-4 p-4 rounded-xl bg-red-50 border border-red-200">
+                  <p className="text-sm text-red-600">{cancelError}</p>
+                </div>
+              )}
+
+              {/* Cancel Button / Confirm */}
+              {booking.status === 'CONFIRMED' && !cancelSuccess && (
+                showCancelConfirm ? (
+                  <div className="p-4 rounded-xl bg-red-50 border border-red-200">
+                    <p className="text-sm text-red-700 font-medium mb-3">
+                      Möchten Sie diese Buchung wirklich stornieren?
+                    </p>
+                    <div className="flex items-center gap-3">
+                      <button
+                        onClick={handleCancel}
+                        disabled={isCancelling}
+                        className="px-5 py-2 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed text-sm"
+                      >
+                        {isCancelling ? 'Wird storniert...' : 'Ja, stornieren'}
+                      </button>
+                      <button
+                        onClick={() => setShowCancelConfirm(false)}
+                        disabled={isCancelling}
+                        className="px-5 py-2 border border-gray-200 rounded-lg text-gray-700 hover:bg-white font-medium transition-all text-sm"
+                      >
+                        Abbrechen
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <button
+                    onClick={() => setShowCancelConfirm(true)}
+                    className="w-full py-3 px-4 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-lg transition-all shadow-sm"
+                  >
+                    Buchung stornieren
+                  </button>
+                )
               )}
             </div>
 
             {/* Event Details */}
-            <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-7">
+            <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-5 sm:p-7">
               <h3 className="text-lg font-bold text-gray-900 mb-5">
                 Veranstaltungsdetails
               </h3>
@@ -354,6 +394,9 @@ export default function BookingLookupPage() {
                 setEmail('');
                 setCode('');
                 setError('');
+                setCancelSuccess(false);
+                setCancelError('');
+                setShowCancelConfirm(false);
               }}
               className="w-full py-3 px-4 border border-gray-200 rounded-xl text-gray-700 hover:bg-gray-50 hover:border-gray-300 font-medium transition-all"
             >

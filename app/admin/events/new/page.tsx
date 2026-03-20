@@ -49,7 +49,7 @@ export default function CreateEventPage() {
 
       if (!response.ok) {
         const error = await response.json();
-        throw new Error(error.error || 'Failed to create event');
+        throw new Error(error.error || 'Veranstaltung konnte nicht erstellt werden');
       }
 
       router.push('/admin/events');
@@ -106,7 +106,7 @@ export default function CreateEventPage() {
 
               <div>
                 <h3 className="text-base font-bold text-gray-900 mb-4 pb-2 border-b border-gray-100">Art und Format</h3>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className={labelClasses}>Veranstaltungstyp *</label>
                     <select name="eventType" required className={inputClasses}>
@@ -131,7 +131,7 @@ export default function CreateEventPage() {
 
               <div>
                 <h3 className="text-base font-bold text-gray-900 mb-4 pb-2 border-b border-gray-100">Termin</h3>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className={labelClasses}>Startdatum & Uhrzeit *</label>
                     <input type="datetime-local" name="startTime" required className={inputClasses} />
@@ -145,7 +145,7 @@ export default function CreateEventPage() {
 
               <div>
                 <h3 className="text-base font-bold text-gray-900 mb-4 pb-2 border-b border-gray-100">Ort und Zugang</h3>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className={labelClasses}>Ort</label>
                     <input type="text" name="location" className={inputClasses} placeholder="Berlin, Deutschland" />
@@ -159,7 +159,7 @@ export default function CreateEventPage() {
 
               <div>
                 <h3 className="text-base font-bold text-gray-900 mb-4 pb-2 border-b border-gray-100">Kapazität</h3>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className={labelClasses}>Gesamtplätze *</label>
                     <input type="number" name="totalSlots" required min="1" defaultValue="12" className={inputClasses} />
@@ -173,7 +173,7 @@ export default function CreateEventPage() {
 
               <div>
                 <h3 className="text-base font-bold text-gray-900 mb-4 pb-2 border-b border-gray-100">Veranstalter</h3>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className={labelClasses}>Veranstalter Name</label>
                     <input type="text" name="organizerName" className={inputClasses} placeholder="Max Mustermann" />

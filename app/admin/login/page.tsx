@@ -33,7 +33,7 @@ export default function AdminLoginPage() {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.error || 'Login failed');
+        throw new Error(data.error || 'Anmeldung fehlgeschlagen');
       }
 
       // Store token
@@ -43,7 +43,7 @@ export default function AdminLoginPage() {
       // Redirect to dashboard
       router.push('/admin/dashboard');
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Login failed');
+      setError(err instanceof Error ? err.message : 'Anmeldung fehlgeschlagen');
     } finally {
       setIsSubmitting(false);
     }

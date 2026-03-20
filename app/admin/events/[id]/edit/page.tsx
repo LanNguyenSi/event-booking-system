@@ -43,7 +43,7 @@ export default function EditEventPage() {
     async function loadEvent() {
       try {
         const response = await fetch(`/api/events/${id}`);
-        if (!response.ok) throw new Error('Event not found');
+        if (!response.ok) throw new Error('Veranstaltung nicht gefunden');
         const data = await response.json();
         const eventData = data.event || data;
         setEvent(eventData);
@@ -54,7 +54,7 @@ export default function EditEventPage() {
           setConfirmedBookingsCount(confirmed);
         }
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'Failed to load event');
+        setError(err instanceof Error ? err.message : 'Veranstaltung konnte nicht geladen werden');
       } finally {
         setIsLoading(false);
       }
@@ -97,7 +97,7 @@ export default function EditEventPage() {
 
       if (!response.ok) {
         const err = await response.json();
-        throw new Error(err.error || 'Failed to update event');
+        throw new Error(err.error || 'Veranstaltung konnte nicht aktualisiert werden');
       }
 
       router.push('/admin/events');
@@ -198,7 +198,7 @@ export default function EditEventPage() {
 
               <div>
                 <h3 className="text-base font-bold text-gray-900 mb-4 pb-2 border-b border-gray-100">Art und Format</h3>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className={labelClasses}>Veranstaltungstyp *</label>
                     <select name="eventType" required defaultValue={event.eventType} className={inputClasses}>
@@ -223,7 +223,7 @@ export default function EditEventPage() {
 
               <div>
                 <h3 className="text-base font-bold text-gray-900 mb-4 pb-2 border-b border-gray-100">Termin</h3>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className={labelClasses}>Startdatum & Uhrzeit *</label>
                     <input type="datetime-local" name="startTime" required defaultValue={formatDatetime(event.startTime)} className={inputClasses} />
@@ -237,7 +237,7 @@ export default function EditEventPage() {
 
               <div>
                 <h3 className="text-base font-bold text-gray-900 mb-4 pb-2 border-b border-gray-100">Ort und Zugang</h3>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className={labelClasses}>Ort</label>
                     <input type="text" name="location" defaultValue={event.location || ''} className={inputClasses} placeholder="Berlin, Deutschland" />
@@ -251,7 +251,7 @@ export default function EditEventPage() {
 
               <div>
                 <h3 className="text-base font-bold text-gray-900 mb-4 pb-2 border-b border-gray-100">Kapazität</h3>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className={labelClasses}>Gesamtplätze *</label>
                     <input type="number" name="totalSlots" required min="1" defaultValue={event.totalSlots} className={inputClasses} />
@@ -268,7 +268,7 @@ export default function EditEventPage() {
 
               <div>
                 <h3 className="text-base font-bold text-gray-900 mb-4 pb-2 border-b border-gray-100">Veranstalter</h3>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className={labelClasses}>Veranstalter Name</label>
                     <input type="text" name="organizerName" defaultValue={event.organizerName || ''} className={inputClasses} />

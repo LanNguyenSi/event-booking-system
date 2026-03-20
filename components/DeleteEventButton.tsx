@@ -24,22 +24,22 @@ export default function DeleteEventButton({
   const [isLoading, setIsLoading] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const [showPermanentConfirm, setShowPermanentConfirm] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const router = useRouter();
 
   const isCancelled = status === 'CANCELLED';
 
   const handleDelete = async () => {
     setIsLoading(true);
+    setError(null);
 
     try {
       const token = localStorage.getItem('admin_token');
       if (!token) {
-        alert('Nicht authentifiziert. Bitte erneut anmelden.');
         router.push('/admin/login');
         return;
       }
 
-      // If event has confirmed bookings, force delete
       const url = confirmedBookingsCount > 0
         ? `/api/events/${eventId}?force=true`
         : `/api/events/${eventId}`;
@@ -57,12 +57,11 @@ export default function DeleteEventButton({
         throw new Error(data.error || 'Veranstaltung konnte nicht gelöscht werden');
       }
 
-      // Success - refresh the page
       router.refresh();
       setShowConfirm(false);
     } catch (error) {
       console.error('Error deleting event:', error);
-      alert(error instanceof Error ? error.message : 'Veranstaltung konnte nicht gelöscht werden');
+      setError(error instanceof Error ? error.message : 'Veranstaltung konnte nicht gelöscht werden');
     } finally {
       setIsLoading(false);
     }
@@ -70,11 +69,11 @@ export default function DeleteEventButton({
 
   const handlePermanentDelete = async () => {
     setIsLoading(true);
+    setError(null);
 
     try {
       const token = localStorage.getItem('admin_token');
       if (!token) {
-        alert('Nicht authentifiziert. Bitte erneut anmelden.');
         router.push('/admin/login');
         return;
       }
@@ -92,11 +91,10 @@ export default function DeleteEventButton({
         throw new Error(data.error || 'Veranstaltung konnte nicht endgültig gelöscht werden');
       }
 
-      // Event no longer exists, redirect to events list
       router.push('/admin/events');
     } catch (error) {
       console.error('Error permanently deleting event:', error);
-      alert(error instanceof Error ? error.message : 'Veranstaltung konnte nicht endgültig gelöscht werden');
+      setError(error instanceof Error ? error.message : 'Veranstaltung konnte nicht endgültig gelöscht werden');
     } finally {
       setIsLoading(false);
     }
@@ -117,6 +115,7 @@ export default function DeleteEventButton({
 
     return (
       <div className="flex flex-col gap-2">
+        {error && <p className="text-sm text-red-600">{error}</p>}
         <div className="text-sm text-red-700 font-medium">
           Diese Aktion kann nicht rückgängig gemacht werden. Die Veranstaltung und alle zugehörigen Buchungen werden unwiderruflich gelöscht.
         </div>
@@ -124,14 +123,14 @@ export default function DeleteEventButton({
           <button
             onClick={handlePermanentDelete}
             disabled={isLoading}
-            className="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700 disabled:opacity-50 text-sm"
+            className="px-3 py-1 bg-red-600 text-white rounded-lg hover:bg-red-700 disabled:opacity-50 text-sm"
           >
             {isLoading ? 'Lösche...' : 'Ja, endgültig löschen'}
           </button>
           <button
-            onClick={() => setShowPermanentConfirm(false)}
+            onClick={() => { setShowPermanentConfirm(false); setError(null); }}
             disabled={isLoading}
-            className="px-3 py-1 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 disabled:opacity-50 text-sm"
+            className="px-3 py-1 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 disabled:opacity-50 text-sm"
           >
             Abbrechen
           </button>
@@ -153,6 +152,7 @@ export default function DeleteEventButton({
 
   return (
     <div className="flex flex-col gap-2">
+      {error && <p className="text-sm text-red-600">{error}</p>}
       <div className="text-sm text-gray-600">
         &quot;{eventTitle}&quot; stornieren?
         {confirmedBookingsCount > 0 && (
@@ -165,14 +165,14 @@ export default function DeleteEventButton({
         <button
           onClick={handleDelete}
           disabled={isLoading}
-          className="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700 disabled:opacity-50 text-sm"
+          className="px-3 py-1 bg-red-600 text-white rounded-lg hover:bg-red-700 disabled:opacity-50 text-sm"
         >
           {isLoading ? 'Lösche...' : 'Ja, stornieren'}
         </button>
         <button
-          onClick={() => setShowConfirm(false)}
+          onClick={() => { setShowConfirm(false); setError(null); }}
           disabled={isLoading}
-          className="px-3 py-1 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 disabled:opacity-50 text-sm"
+          className="px-3 py-1 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 disabled:opacity-50 text-sm"
         >
           Abbrechen
         </button>
